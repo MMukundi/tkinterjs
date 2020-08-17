@@ -1,0 +1,57 @@
+*{
+    --main-color:black;
+    --transition-time:250ms;
+    --header-height:20px;
+}
+body{
+    font-family: Montserrat;
+}
+.TkWindow{
+    border: 1px solid var(--main-color);
+    background:white;
+    overflow: hidden;
+}
+.TkButton{
+    background:grey;       
+    box-sizing: border-box;
+    width:10px;
+    height:20px;
+}
+
+.grid{
+    display: grid;
+}
+
+
+
+.MenuBar{
+    position: relative;
+    background: rgb(197, 197, 197);
+    left:0;
+    top:0;
+    border-bottom: 0.5px solid var(--main-color);
+    width:inherit;
+    height:var(--header-height);
+    box-sizing: border-box;
+    padding-left:5px;
+}
+.Content{
+    bottom: 0;
+    /* display: inline-block; */
+    width:100%;
+    height:calc(100% - var(--header-height));
+}
+.CloseButton{
+    height:100%;
+    float:right;
+    background:none;       
+    border:none;
+    color:red;  
+    transition: var(--transition-time);
+    text-align: center;
+}
+.CloseButton:hover{
+    background: red;
+    color:white;
+    transition: var(--transition-time);
+}
