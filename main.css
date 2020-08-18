@@ -10,12 +10,13 @@ body{
     border: 1px solid var(--main-color);
     background:white;
     overflow: hidden;
+    resize: both;
 }
 .TkButton{
     background:grey;       
     box-sizing: border-box;
-    width:10px;
-    height:20px;
+    width:initial;
+    height:initial;
 }
 
 .grid{

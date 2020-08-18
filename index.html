@@ -8,7 +8,8 @@
           window.languagePluginUrl = 'https://pyodide-cdn2.iodide.io/v0.15.0/full/';
       </script>
       <script src="https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
-      <script src="py.js"></script>
+      <script type="module">import * as tt from './__target__/tictac.js'; window.tt = tt;</script>
+      <script src="py.js" defer></script>
   </head>
   <body>
     Pyodide test page <br>

@@ -1,4 +1,5 @@
 let toLoad = ["helperFunc", "tkinter","tictac"]
+print(tt)
 let modulesReady
 new Promise((res, rej) => {
     languagePluginLoader.then(function () {
@@ -7,8 +8,10 @@ new Promise((res, rej) => {
             new Promise((res, rej) => {
                 fetch(`./${mod}.py`).then(d => d.text()).then((t) => {
                     res(pyodide.runPython(t))
+                    t=null
                 })
             })
+
         ))
         // .then(()=>pyodide.loadPackage("re"))
         console.log(pyodide.runPython(`
