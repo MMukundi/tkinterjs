@@ -1,101 +1,7 @@
 from org.transcrypt.stubs.browser import __pragma__
-
-__pragma__ ('kwargs')
-__pragma__('jsiter')
 from helperFunc import *
 
-# _magic_re = re.compile(r'([\\{}])')
-# _space_re = re.compile(r'([\s])', re.ASCII)
-_support_default_root = 1
-_default_root = None
-
-N = "n"
-NE = "ne"
-E = "e"
-SE = "se"
-S = "s"
-SW = "sw"
-W = "w"
-NW = "nw"
-
-Yes = "yes"
-No = "no"
-
-GRID = "grid"
-PACK = "pack"
-PLACE = "place"
-
-import re
-def _join(value):
-    """Internal function."""
-    return ' '.join(map(_stringify, value))
-
-def _stringify(value):
-    """Internal function."""
-    if isinstance(value, (list, tuple)):
-        if len(value) == 1:
-            value = _stringify(value[0])
-            if _magic_re.search(value):
-                value = '{%s}' % value
-        else:
-            value = '{%s}' % _join(value)
-    else:
-        value = str(value)
-        if not value:
-            value = '{}'
-        elif _magic_re.search(value):
-            # add '\' before special characters and spaces
-            value = _magic_re.sub(r'\\\1', value)
-            value = value.replace('\n', r'\n')
-            value = _space_re.sub(r'\\\1', value)
-            if value[0] == '"':
-                value = '\\' + value
-        elif value[0] == '"' or _space_re.search(value):
-            value = '{%s}' % value
-    return value
-
-def _flatten(seq):
-    """Internal function."""
-    res = ()
-    for item in seq:
-        if isinstance(item, (tuple, list)):
-            res = res + _flatten(item)
-        elif item is not None:
-            res = res + (item,)
-    return res
-
-# try: _flatten = _tkinter._flatten
-# except AttributeError: pass
-
-def _cnfmerge(cnfs):
-    """Internal function."""
-    if isinstance(cnfs, dict):
-        return cnfs
-    elif isinstance(cnfs, (type(None), str)):
-        return cnfs
-    else:
-        cnf = {}
-        for c in _flatten(cnfs):
-            try:
-                cnf.update(c)
-            except (AttributeError, TypeError) as msg:
-                print("_cnfmerge: fallback due to:", msg)
-                for i in c.items():
-                    k = i[0]
-                    v = i[1]
-                    cnf[k] = v
-        return cnf
-
-# try: _cnfmerge = _tkinter._cnfmerge
-# except AttributeError: pass
-
-_magic_re = re.compile(r'([\\{}])')
-_space_re = re.compile(r'([\s])', re.ASCII)
-_support_default_root = 1
-_default_root = None
-
-def _toBool(v):
-    return v!=None and (v=="yes" or v==1 or v==True)
+__pragma__('kwargs')
 
 class LayoutManager:
     def _addToMaster(self):
@@ -121,11 +27,37 @@ class Grid(LayoutManager):
     def grid(self, column=0, columnspan=1, in_=None, ipadx=0, ipady=0, padx=0, pady=0, row=None, rowspan=1, sticky=None):
         if(self.master.layoutMethod != GRID or (not hasattr(self, 'occupiedRows'))):
             self.__setupGrid__()
+        if(column == None):
+            column = 0
         if(row == None):
             row = 0
             while(row in self.occupiedRows):
                 row += 1
         self.occupiedRows.add(row)
+
+        if(sticky!=None):
+            sticky = sticky.lower()
+                        
+            if( 'n' in sticky and 's' in sticky):
+                self.element.style.alignSelf = "stretch"
+            elif('n' in sticky):
+                self.element.style.alignSelf = "start"
+            elif('s' in sticky):
+                self.element.style.alignSelf = "end"
+            else:
+                self.element.style.height = ""
+                self.element.style.alignSelf = "center"
+
+            if('e' in sticky and 'w' in sticky):
+                self.element.style.justifySelf = "stretch"
+            elif('e' in sticky):
+                self.element.style.justifySelf = "end"
+
+            elif('w' in sticky):
+                self.element.style.justifySelf = "start"
+            else:
+                self.element.style.width = ""
+                self.element.style.justifySelf = "center"
 
         self.element.style.gridColumnStart = f'{column+1}'
         self.element.style.gridRowStart = f'{row+1}'
@@ -133,62 +65,75 @@ class Grid(LayoutManager):
         self.element.style.gridRowEnd = f'{row+1+rowspan}'
         self._addToMaster()
 
+
 class Place(LayoutManager):
-    def place(self,**kw):
+    def place(self, **kwargs):
         self._addToMaster()
+
 
 class Misc:
     element = None
     # used for generating child widget names
     _last_child_ids = None
-    options = {}
+
     minWidth = minHeight = float("-inf")
     maxWidth = maxHeight = float("inf")
-    getValue = lambda x:None
+    getValue = lambda x: None
+
+    options = {}
     _children = []
+    textElement = None
 
     def destroy(self):
         self.element.remove()
+
     def _geometry(self, g):
-        geo = list(map(int,g.split("x")))
-        return (min(self.maxWidth,max(geo[0],self.minWidth)),min(self.maxHeight,max(geo[1],self.minHeight)))
+        geo = list(map(int, g.split("x")))
+        return (min(self.maxWidth, max(geo[0], self.minWidth)), min(self.maxHeight, max(geo[1], self.minHeight)))
 
     def geometry(self, g):
-        w,h = self._geometry(g)
-        print("sizing",g,w,h)
+        w, h = self._geometry(g)
+
         self.element.style.width = f'{w}px'
         self.element.style.height = f'{h}px'
-    
-    def maxsize(self,w,h):
+
+    def maxsize(self, w, h):
         self.maxWidth = w
         self.maxHeight = h
 
-    def minsize(self,w,h):
+    def minsize(self, w, h):
         self.minWidth = w
         self.minHeight = h
 
-    def configure(self, **kw):
-        for k in kw:
-            v = kw[k]
+    def configure(self, **kwargs):
+        for k in kwargs.keys():
+            v = kwargs[k]
             if(k == "activebackground"):
                 pass
             elif(k == "activeforeground"):
                 pass
             elif(k == "anchor"):
-                self.element.style.position = 'relative'
-                if('n' in v and 's' in v):
-                    self.element.style.height = "100%"
-                if('e' in v and 'w' in v):
-                    self.element.style.width = "100%"
+                if(self.textElement==None):
+                    self.textElement = document.createElement("div")
+                    self.element.appendChild(self.textElement)
+                    self.textElement.style.width = "100%"
+                    self.textElement.style.height = "100%"
+                    self.textElement.style.display = "flex"
+                    self.textElement.style.alignItems="center"
+                    self.textElement.style.justifyContent="center"
+                    self.textElement.style.position = 'relative'
+                    
 
+                v = v.lower()
+                    
                 if('n' in v):
-                    self.element.style.top = 0
+                    self.textElement.element.style.alignItems = "top"
                 if('e' in v):
-                    self.element.style.right = 0
+                    self.textElement.element.style.justifyContent = "right"
                 if('s' in v):
-                    self.element.style.bottom = 0
+                    self.textElement.element.style.alignItems = "bottom"
                 if('w' in v):
-                    self.element.style.left = 0
+                    self.textElement.element.style.justifyContent = "left"
             elif(k == "background"):
                 self.element.style[k] = v
             elif(k == "bitmap"):
@@ -198,11 +143,20 @@ class Misc:
             elif(k == "cursor"):
                 self.element.style.cursor = v
             elif(k == "disabledforeground"):
+                if(hasattr(self,"_dfgid")):
+                    _dynamic_styles.sheet.deleteRule(self._dfgid)
+                s = f"#{self.element.id}:disabled"+"{color:"+v+"}"
+                self._dfgid=_dynamic_styles.sheet.insertRule(s,_dynamic_styles.sheet.cssRules.length)
                 pass
             elif(k == "font"):
                 self.element.style.fontFamily = v
             elif(k == "foreground"):
                 self.element.style.color = v
+            elif(k == "height" or k=="width"):
+                if(js_isNaN(v)):
+                    self.element.style[k]=v
+                else:
+                    self.element.style[k]=f"{v}px"
             elif(k == "highlightbackground"):
                 # self.element.style.borderWidth=v
                 pass
@@ -234,6 +188,9 @@ class Misc:
                 pass
             elif(k == "setgrid"):
                 pass
+            elif(k == "state"):
+                self.element.disabled = v=="disabled"
+                # self.element.disabled=self.element.disabled.lower()
             elif(k == "takefocus"):
                 if(not v):
                     self.__defFoc__ = self.element.tabindex
@@ -241,12 +198,29 @@ class Misc:
                 else:
                     self.element.tabindex = self.__defFoc__
             elif(k == "text"):
-                if(self.element.children.length != 0):
-                    s = document.createElement("span")
-                    s.innerText = v
-                    self.element.appendChild(s)
-                else:
-                    self.element.innerText = v
+                if(self.textElement==None):
+                    self.textElement = document.createElement("div")
+                    self.element.appendChild(self.textElement)
+                    self.textElement.style.width = "100%"
+                    self.textElement.style.height = "100%"
+                    self.textElement.style.display = "flex"
+                    self.textElement.style.alignItems="center"
+                    self.textElement.style.justifyContent="center"
+                    self.textElement.style.position = 'relative'
+                self.textElement.innerText = v  
+                # if(self.element.tagName=="INPUT"):
+                #     l = document.createElement("label")
+                #     l.innerText = v
+                #     self.element.id = self._w
+                #     l["for"] = self.element.id
+                #     self.master.element.appendChild(l)
+                # el
+                # if(self.element.children.length != 0):
+                #     s = document.createElement("span")
+                #     s.innerText = v
+                #     self.element.appendChild(s)
+                # else:
+                #     self.element.innerText = v
             elif("variable" in k):
                 v.get = lambda: self.getValue()
             elif(k == "troughcolor"):
@@ -257,17 +231,27 @@ class Misc:
                 pass
             elif("scrollcommand" in k):
                 pass
-
+            elif(self.element.style[k] !=js_undefined):
+                self.element.style[k]=v
+            # console.log(k,self.element.style,self.element.style[k],self.element.style.k !=None)
             self.options[k] = v
+
+    def config(self, **kwargs):
+        self.configure(self, **kwargs)
     # config = Misc.configure
+
     def cget(self, k):
         return self.options[k]
+
     def winfo_reqheight(self):
         return self.element.clientHeight
+
     def winfo_reqwidth(self):
         return self.element.clientWidth
+
     def winfo_children(self):
         return self._children
+
 
 class BaseWidget(Misc):
     """Internal class."""
@@ -275,11 +259,12 @@ class BaseWidget(Misc):
     def _setup(self, master, cnf):
         """Internal function. Sets up information about children."""
         self.layoutMethod = None
-        self.element.onresize 
+        self.element.onresize
         if _support_default_root:
             global _default_root
             if not master:
                 if not _default_root:
+
                     _default_root = Tk()
                 master = _default_root
         self.master = master
@@ -295,55 +280,61 @@ class BaseWidget(Misc):
             count = master._last_child_ids.get(name, 0) + 1
             master._last_child_ids[name] = count
             if count == 1:
-                name = '!%s' % (name,)
+                name = f'!{name}'
             else:
-                name = '!%s%d' % (name, count)
+                name = f'!{name}{count}'
         self._name = name
-        if master._w == '.':
+        if master._w=='.':
             self._w = '.' + name
         else:
             self._w = master._w + '.' + name
+        self.element.id = self._w.replace(".","_").replace("!","")
         self.children = {}
         if self._name in self.master.children:
             self.master.children[self._name].destroy()
         self.master.children[self._name] = self
 
-    def __init__(self, master, widgetName, cnf={}, kw={}, extra=()):
+    def __init__(self, master, widgetName, cnf={}, kwargs={}, extra=()):
         """Construct a widget with the parent widget MASTER, a name WIDGETNAME
         and appropriate options."""
-        if kw:
-            cnf = _cnfmerge((cnf, kw))
+        self.options = {}
+        self._children = []
+
+        if len(kwargs.keys()):
+            cnf = _cnfmerge((cnf, kwargs))
+
         self.widgetName = widgetName
 
         BaseWidget._setup(self, master, cnf)
+
         # if(hasattr(self,"default_size")):
         #     w,h = self.default_size
         #     if hasattr(cnf,"width"):
         #         w = cnf["width"]
         #     if hasattr(cnf,"height"):
         #         h = cnf["height"]
-        #     self.geometry(f'{w}x{h}') 
+        #     self.geometry(f'{w}x{h}')
         # else:
         #     self._size = (self.element.clientWidth,self.element.clientHeight)
-        
-        # classes = [t for t in cnf.items() if isinstance(k, type)]
-        # for i in c.items():
-        #     k = i[0]
-        #     v = i[1]
+
+        # classes = [(k,cnf[k]) for k in cnf if isinstance(k, type)]
+        # for k in c:
+        #     v = c[k]
         #     k.configure(self, v)
-        # print(**cnf)
+
+
         self.configure(**cnf)
 
     def destroy(self):
         """Destroy this and all descendants widgets."""
-        for c in list(self.children.values()):
+        for c in list(self.children.values()): 
             c.destroy()
         if self._name in self.master.children:
             del self.master.children[self._name]
         Misc.destroy(self)
 
 
-class Widget(BaseWidget, Grid, Place):# , Pack):
+class Widget(BaseWidget, Grid, Place):  # , Pack):
     """Internal class.
 
     Base class for a widget which can be positioned with the geometry managers
@@ -354,7 +345,7 @@ class Widget(BaseWidget, Grid, Place):# , Pack):
 class Button(Widget):
     """Button widget."""
 
-    def __init__(self, master=None, cnf={}, **kw):
+    def __init__(self, master=None, cnf={}, **kwargs):
         """Construct a button widget with the parent MASTER.
 
         STANDARD OPTIONS
@@ -374,13 +365,15 @@ class Button(Widget):
             overrelief, state, width
         """
 
+
         self.element = document.createElement("button")
-        Widget.__init__(self, master, 'button', cnf, kw)
+        # def __init__(self, master, widgetName, cnf={}, kwargs={}, extra=()):
+        Widget.__init__(self, master, 'button', cnf, kwargs)
         self.element.classList.add("TkButton")
         # self.master.element.appendChild(self.element)
 
-        self._callback = kw["command"] if kw["command"] != None else lambda x: None
-        self.element.onclick = lambda x:self._callback()
+        self._callback = kwargs["command"] if kwargs["command"] != None else lambda x: None
+        self.element.onclick = lambda x: self._callback()
 
     def flash(self):
         """Flash the button.
@@ -394,7 +387,7 @@ class Button(Widget):
         """
 
         # self.tk.call(self._w, 'flash')
-        print("I know I should, but I shan't")
+
         return None
 
     def invoke(self):
@@ -412,8 +405,10 @@ class Button(Widget):
 class Tk(Misc):
     _w = path = "."
     _dragging = None
-    def __init__(self, master=None, cnf={}, **kw):
-        print("New window I guess?")
+    __zStack__ = []
+
+    def __init__(self, master=None, cnf={}, **kwargs):
+
         self.window = document.createElement("div")
         self.window.classList.add("TkWindow")
         self.window.draggable = "true"
@@ -430,6 +425,7 @@ class Tk(Misc):
         self.menuBar.appendChild(self.closeButton)
 
         self.titleSpan = document.createElement("span")
+        self.titleSpan.classList.add("WindowTitle","__noselect__")
         self.titleSpan.style.float = "left"
         self.titleSpan.innerText = "Tkinter"
         self.menuBar.appendChild(self.titleSpan)
@@ -437,37 +433,49 @@ class Tk(Misc):
         self.mainFrame = document.createElement("div")
         self.element = self.mainFrame
         self.mainFrame.classList.add("Content")
-        Widget.__init__(self, self, 'tk', cnf, kw)
+        # (self, master, widgetName, cnf={}, kwargs={}, extra=())
+        Widget.__init__(self, self, 'tk', cnf, kwargs)
 
         self.window.appendChild(self.menuBar)
         self.window.appendChild(self.mainFrame)
         document.body.appendChild(self.window)
 
-        self.window.ondragstart = self._dragStart
+        self.mainFrame.ondragstart = self._dragStart
+        self.window.onclick = lambda: self._bringToTop()
+        # self.window.ondragend = lambda x: console.log("inside",Tk._dragEnd(x),x)
 
         self.window.style.position = "absolute"
-        self._x=0
-        self._y=0
-        self._moveWindow(0,0)
-
+        self._x = 0
+        self._y = 0
+        self._z = self.window.style.zIndex = len(Tk.__zStack__)
+        self._moveWindow(0, 0)
+        
+        Tk.__zStack__.append(self)
         self.children = {}
+    def _bringToTop(self):
+        print(self)
+        i = Tk.__zStack__.index(self)
+        Tk.__zStack__.pop(i)
 
-    def _dragStart(self ,e):
-        e.dataTransfer.setData("x", e.clientX)
-        e.dataTransfer.setData("y", e.clientY)
-        print("Drag started at ",e.clientX,e.clientY)
-        Tk._dragging = self
-    @staticmethod
-    def _dragEnd(e):
-        print("A")
-        e.preventDefault()
-        dx = e.clientX- int(e.dataTransfer.getData("x"))
-        dy = e.clientY- int(e.dataTransfer.getData("y"))
-        print(e.pageX,e.pageY)
-        print("S",e.dataTransfer.getData("x"),e.dataTransfer.getData("y"))
-        print("Drag end at ",e.clientX,e.clientY,dx,dy)
-        Tk._dragging._moveWindow(Tk._dragging._x+dx,Tk._dragging._y+dy)
-    def _moveWindow(self,x,y):
+        for above in Tk.__zStack__[i:]:
+            above._z -=1
+            above.window.style.zIndex = above._z
+        
+        Tk.__zStack__.append(self)
+        self._z = self.window.style.zIndex = len(Tk.__zStack__)
+
+    def _dragStart(self , e):
+        e.target=self.window
+        startX=e.clientX
+        startY=e.clientY
+
+        def end(e):
+            self._moveWindow(self._x+e.clientX-startX,self._y+e.clientY-startY)
+        
+        document.body.ondrop = end
+        document.body.ondragover = lambda e:e.preventDefault()
+
+    def _moveWindow(self, x,y):
         self._x = x
         self._y = y
         self.window.style.left = f'{x}px'
@@ -483,85 +491,112 @@ class Tk(Misc):
         self.window.style.height = f'{h}px'
 
     def title(self, t):
-        print(self.menuBar)
+
         self.titleSpan.innerText = t
 
     def mainloop(self):
         pass
 
+
 class Wm(Misc):
     def wm_aspect(self,
-              minNumer=None, minDenom=None,
-              maxNumer=None, maxDenom=None):
-        return (self.element.clientWidth,self.element.clientHeight)
+                  minNumer=None, minDenom=None,
+                  maxNumer=None, maxDenom=None):
+        return (self.element.clientWidth, self.element.clientHeight)
     # aspect = wm_aspect
-    def wm_attriabutes(self,*args):
+    def wm_attriabutes(self, *args):
         pass
+
     def wm_client(self, name=None):
         pass
     # client = wm_client
+
     def wm_resizable(self, width=None, height=None):
         w = _toBool(width)
         h = _toBool(height)
-        self.element.style.resize = "both" if w and h else ("horizontal" if w else ("vertical" if h else "none"))
+        self.element.style.resize = "both" if w and h else (
+            "horizontal" if w else ("vertical" if h else "none"))
+
     def wm_colormapwindows(self, *wlist):
         pass
     # colormapwindows = wm_colormapwindows
+
     def wm_command(self, value=None):
         pass
     # command = wm_command
+
+
 class Frame(Widget):
-    def __init__(self, master=None, cnf={}, **kw):
+    def __init__(self, master=None, cnf={}, **kwargs):
         self.element = document.createElement("div")
-        Widget.__init__(self, master, 'frame', cnf, kw)
+        self.element.classList.add("TkFrame")
+        Widget.__init__(self, master, 'frame', cnf, kwargs)
         # document.body.appendChild(self.element)
+
 
 class Label(Widget):
-    def __init__(self, master=None, cnf={}, **kw):
+    def __init__(self, master=None, cnf={}, **kwargs):
         self.element = document.createElement("p")
-        Widget.__init__(self, master, 'label', cnf, kw)
+        self.element.classList.add("TkLabel")
+        Widget.__init__(self, master, 'label', cnf, kwargs)
         # document.body.appendChild(self.element)
 
+
 class Entry(Widget):
-    def __init__(self, master=None, cnf={}, **kw):
+    def __init__(self, master=None, cnf={}, **kwargs):
         self.element = document.createElement("input")
-        self.element.type = "text"
-        Widget.__init__(self, master, 'input', cnf, kw)
+        self.element.js_type = "text"
+        self.element.classList.add("TkEntry")
+        Widget.__init__(self, master, 'input', cnf, kwargs)
         # document.body.appendChild(self.element)
+
     def getValue(self):
         return self.element.value
 
+
 class Checkbutton(Widget):
-    def __init__(self, master=None, cnf={}, **kw):
+    def __init__(self, master=None, cnf={}, **kwargs):
         self.element = document.createElement("input")
-        self.element.type = "checkbox"
-        Widget.__init__(self, master, 'checkbox', cnf, kw)
-        # document.body.appendChild(self.element)
+        self.element.classList.add("TkCheckbutton")
+
+        Widget.__init__(self, master, 'checkbutton', cnf, kwargs)
+        self.element.js_type = "checkbox"
+
     def getValue(self):
         return self.element.checked
+
 
 class Variable:
     def __init__(self):
         self.val = None
-        self.get = lambda x: None
-    def set(self,v):
+        self.get = lambda: None
+    def set(self, v):
         self.val = v
     # def get(self,v):
     #     self.val = v
+
     def __repr__(self):
-        print(self.val)
         return self.get()
+
 
 class StringVar(Variable):
     pass
 
+
 class IntVar(Variable):
     pass
 
+
 class DoubleVar(Variable):
-   pass
+    pass
+
 
 class BooleanVar(Variable):
     pass
 
-document.body.ondrop = Tk._dragEnd
+
+
+_dynamic_styles= document.createElement("style")
+document.head.appendChild(_dynamic_styles)
+
+__pragma__('nokwargs')

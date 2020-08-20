@@ -1,174 +1,7 @@
-// Transcrypt'ed from Python, 2020-08-17 18:00:13
-var re = {};
+// Transcrypt'ed from Python, 2020-08-20 03:03:19
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, abs, all, any, assert, bool, bytearray, bytes, callable, chr, copy, deepcopy, delattr, dict, dir, divmod, enumerate, filter, float, getattr, hasattr, input, int, isinstance, issubclass, len, list, map, max, min, object, ord, pow, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, round, set, setattr, sorted, str, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
-import * as __module_re__ from './re.js';
-__nest__ (re, '', __module_re__);
-import {} from './helperFunc.js';
+import {E, GRID, N, NE, NW, No, PACK, PLACE, S, SE, SW, W, Yes, _cnfmerge, _default_root, _flatten, _join, _magic_re, _space_re, _stringify, _support_default_root, _toBool} from './helperFunc.js';
 var __name__ = 'tkinter';
-export var _support_default_root = 1;
-export var _default_root = null;
-export var N = 'n';
-export var NE = 'ne';
-export var E = 'e';
-export var SE = 'se';
-export var S = 's';
-export var SW = 'sw';
-export var W = 'w';
-export var NW = 'nw';
-export var Yes = 'yes';
-export var No = 'no';
-export var GRID = 'grid';
-export var PACK = 'pack';
-export var PLACE = 'place';
-export var _join = function (value) {
-	if (arguments.length) {
-		var __ilastarg0__ = arguments.length - 1;
-		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-			var __allkwargs0__ = arguments [__ilastarg0__--];
-			for (var __attrib0__ in __allkwargs0__) {
-				switch (__attrib0__) {
-					case 'value': var value = __allkwargs0__ [__attrib0__]; break;
-				}
-			}
-		}
-	}
-	else {
-	}
-	return ' '.join (map (_stringify, value));
-};
-export var _stringify = function (value) {
-	if (arguments.length) {
-		var __ilastarg0__ = arguments.length - 1;
-		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-			var __allkwargs0__ = arguments [__ilastarg0__--];
-			for (var __attrib0__ in __allkwargs0__) {
-				switch (__attrib0__) {
-					case 'value': var value = __allkwargs0__ [__attrib0__]; break;
-				}
-			}
-		}
-	}
-	else {
-	}
-	if (isinstance (value, tuple ([list, tuple]))) {
-		if (len (value) == 1) {
-			var value = _stringify (value [0]);
-			if (_magic_re.search (value)) {
-				var value = __mod__ ('{%s}', value);
-			}
-		}
-		else {
-			var value = __mod__ ('{%s}', _join (value));
-		}
-	}
-	else {
-		var value = str (value);
-		if (!(value)) {
-			var value = '{}';
-		}
-		else if (_magic_re.search (value)) {
-			var value = _magic_re.sub ('\\\\\\1', value);
-			var value = value.py_replace ('\n', '\\n');
-			var value = _space_re.sub ('\\\\\\1', value);
-			if (value [0] == '"') {
-				var value = '\\' + value;
-			}
-		}
-		else if (value [0] == '"' || _space_re.search (value)) {
-			var value = __mod__ ('{%s}', value);
-		}
-	}
-	return value;
-};
-export var _flatten = function (seq) {
-	if (arguments.length) {
-		var __ilastarg0__ = arguments.length - 1;
-		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-			var __allkwargs0__ = arguments [__ilastarg0__--];
-			for (var __attrib0__ in __allkwargs0__) {
-				switch (__attrib0__) {
-					case 'seq': var seq = __allkwargs0__ [__attrib0__]; break;
-				}
-			}
-		}
-	}
-	else {
-	}
-	var res = tuple ([]);
-	for (var item in seq) {
-		if (isinstance (item, tuple ([tuple, list]))) {
-			var res = res + _flatten (item);
-		}
-		else if (item !== null) {
-			var res = res + tuple ([item]);
-		}
-	}
-	return res;
-};
-export var _cnfmerge = function (cnfs) {
-	if (arguments.length) {
-		var __ilastarg0__ = arguments.length - 1;
-		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-			var __allkwargs0__ = arguments [__ilastarg0__--];
-			for (var __attrib0__ in __allkwargs0__) {
-				switch (__attrib0__) {
-					case 'cnfs': var cnfs = __allkwargs0__ [__attrib0__]; break;
-				}
-			}
-		}
-	}
-	else {
-	}
-	if (isinstance (cnfs, dict)) {
-		return cnfs;
-	}
-	else if (isinstance (cnfs, tuple ([py_typeof (null), str]))) {
-		return cnfs;
-	}
-	else {
-		var cnf = {};
-		for (var c in _flatten (cnfs)) {
-			try {
-				cnf.py_update (c);
-			}
-			catch (__except0__) {
-				if (isinstance (__except0__, tuple ([AttributeError, py_TypeError]))) {
-					var msg = __except0__;
-					print ('_cnfmerge: fallback due to:', msg);
-					for (var i in c.py_items ()) {
-						var k = i [0];
-						var v = i [1];
-						cnf [k] = v;
-					}
-				}
-				else {
-					throw __except0__;
-				}
-			}
-		}
-		return cnf;
-	}
-};
-export var _magic_re = re.compile ('([\\\\{}])');
-export var _space_re = re.compile ('([\\s])', re.ASCII);
-var _support_default_root = 1;
-var _default_root = null;
-export var _toBool = function (v) {
-	if (arguments.length) {
-		var __ilastarg0__ = arguments.length - 1;
-		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-			var __allkwargs0__ = arguments [__ilastarg0__--];
-			for (var __attrib0__ in __allkwargs0__) {
-				switch (__attrib0__) {
-					case 'v': var v = __allkwargs0__ [__attrib0__]; break;
-				}
-			}
-		}
-	}
-	else {
-	}
-	return v != null && (v == 'yes' || v == 1 || v == true);
-};
 export var LayoutManager =  __class__ ('LayoutManager', [object], {
 	__module__: __name__,
 	get _addToMaster () {return __get__ (this, function (self) {
@@ -277,6 +110,9 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 		if (self.master.layoutMethod != GRID || !(hasattr (self, 'occupiedRows'))) {
 			self.__setupGrid__ ();
 		}
+		if (column == null) {
+			var column = 0;
+		}
 		if (row == null) {
 			var row = 0;
 			while (__in__ (row, self.occupiedRows)) {
@@ -284,6 +120,35 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 			}
 		}
 		self.occupiedRows.add (row);
+		if (sticky != null) {
+			var sticky = sticky.lower ();
+			if (__in__ ('n', sticky) && __in__ ('s', sticky)) {
+				self.element.style.alignSelf = 'stretch';
+			}
+			else if (__in__ ('n', sticky)) {
+				self.element.style.alignSelf = 'start';
+			}
+			else if (__in__ ('s', sticky)) {
+				self.element.style.alignSelf = 'end';
+			}
+			else {
+				self.element.style.height = '';
+				self.element.style.alignSelf = 'center';
+			}
+			if (__in__ ('e', sticky) && __in__ ('w', sticky)) {
+				self.element.style.justifySelf = 'stretch';
+			}
+			else if (__in__ ('e', sticky)) {
+				self.element.style.justifySelf = 'end';
+			}
+			else if (__in__ ('w', sticky)) {
+				self.element.style.justifySelf = 'start';
+			}
+			else {
+				self.element.style.width = '';
+				self.element.style.justifySelf = 'center';
+			}
+		}
 		self.element.style.gridColumnStart = '{}'.format (column + 1);
 		self.element.style.gridRowStart = '{}'.format (row + 1);
 		self.element.style.gridColumnEnd = '{}'.format ((column + 1) + columnspan);
@@ -294,7 +159,7 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 export var Place =  __class__ ('Place', [LayoutManager], {
 	__module__: __name__,
 	get place () {return __get__ (this, function (self) {
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -302,10 +167,10 @@ export var Place =  __class__ ('Place', [LayoutManager], {
 				for (var __attrib0__ in __allkwargs0__) {
 					switch (__attrib0__) {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
@@ -317,7 +182,6 @@ export var Misc =  __class__ ('Misc', [object], {
 	__module__: __name__,
 	element: null,
 	_last_child_ids: null,
-	options: {},
 	getValue: (function __lambda__ (x) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
@@ -334,7 +198,9 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		return null;
 	}),
+	options: dict ({}),
 	_children: [],
+	textElement: null,
 	get destroy () {return __get__ (this, function (self) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
@@ -387,7 +253,6 @@ export var Misc =  __class__ ('Misc', [object], {
 		var __left0__ = self._geometry (g);
 		var w = __left0__ [0];
 		var h = __left0__ [1];
-		print ('sizing', g, w, h);
 		self.element.style.width = '{}px'.format (w);
 		self.element.style.height = '{}px'.format (h);
 	});},
@@ -430,7 +295,7 @@ export var Misc =  __class__ ('Misc', [object], {
 		self.minHeight = h;
 	});},
 	get configure () {return __get__ (this, function (self) {
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -438,16 +303,16 @@ export var Misc =  __class__ ('Misc', [object], {
 				for (var __attrib0__ in __allkwargs0__) {
 					switch (__attrib0__) {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
-		for (var k in kw) {
-			var v = kw [k];
+		for (var k of kwargs.py_keys ()) {
+			var v = kwargs [k];
 			if (k == 'activebackground') {
 				// pass;
 			}
@@ -455,24 +320,28 @@ export var Misc =  __class__ ('Misc', [object], {
 				// pass;
 			}
 			else if (k == 'anchor') {
-				self.element.style.position = 'relative';
-				if (__in__ ('n', v) && __in__ ('s', v)) {
-					self.element.style.height = '100%';
+				if (self.textElement == null) {
+					self.textElement = document.createElement ('div');
+					self.element.appendChild (self.textElement);
+					self.textElement.style.width = '100%';
+					self.textElement.style.height = '100%';
+					self.textElement.style.display = 'flex';
+					self.textElement.style.alignItems = 'center';
+					self.textElement.style.justifyContent = 'center';
+					self.textElement.style.position = 'relative';
 				}
-				if (__in__ ('e', v) && __in__ ('w', v)) {
-					self.element.style.width = '100%';
-				}
+				var v = v.lower ();
 				if (__in__ ('n', v)) {
-					self.element.style.top = 0;
+					self.textElement.element.style.alignItems = 'top';
 				}
 				if (__in__ ('e', v)) {
-					self.element.style.right = 0;
+					self.textElement.element.style.justifyContent = 'right';
 				}
 				if (__in__ ('s', v)) {
-					self.element.style.bottom = 0;
+					self.textElement.element.style.alignItems = 'bottom';
 				}
 				if (__in__ ('w', v)) {
-					self.element.style.left = 0;
+					self.textElement.element.style.justifyContent = 'left';
 				}
 			}
 			else if (k == 'background') {
@@ -488,6 +357,11 @@ export var Misc =  __class__ ('Misc', [object], {
 				self.element.style.cursor = v;
 			}
 			else if (k == 'disabledforeground') {
+				if (hasattr (self, '_dfgid')) {
+					_dynamic_styles.sheet.deleteRule (self._dfgid);
+				}
+				var s = (('#{}:disabled'.format (self.element.id) + '{color:') + v) + '}';
+				self._dfgid = _dynamic_styles.sheet.insertRule (s, _dynamic_styles.sheet.cssRules.length);
 				// pass;
 			}
 			else if (k == 'font') {
@@ -495,6 +369,14 @@ export var Misc =  __class__ ('Misc', [object], {
 			}
 			else if (k == 'foreground') {
 				self.element.style.color = v;
+			}
+			else if (k == 'height' || k == 'width') {
+				if (isNaN (v)) {
+					self.element.style [k] = v;
+				}
+				else {
+					self.element.style [k] = '{}px'.format (v);
+				}
 			}
 			else if (k == 'highlightbackground') {
 				// pass;
@@ -545,6 +427,9 @@ export var Misc =  __class__ ('Misc', [object], {
 			else if (k == 'setgrid') {
 				// pass;
 			}
+			else if (k == 'state') {
+				self.element.disabled = v == 'disabled';
+			}
 			else if (k == 'takefocus') {
 				if (!(v)) {
 					self.__defFoc__ = self.element.tabindex;
@@ -555,14 +440,17 @@ export var Misc =  __class__ ('Misc', [object], {
 				}
 			}
 			else if (k == 'text') {
-				if (self.element.children.length != 0) {
-					var s = document.createElement ('span');
-					s.innerText = v;
-					self.element.appendChild (s);
+				if (self.textElement == null) {
+					self.textElement = document.createElement ('div');
+					self.element.appendChild (self.textElement);
+					self.textElement.style.width = '100%';
+					self.textElement.style.height = '100%';
+					self.textElement.style.display = 'flex';
+					self.textElement.style.alignItems = 'center';
+					self.textElement.style.justifyContent = 'center';
+					self.textElement.style.position = 'relative';
 				}
-				else {
-					self.element.innerText = v;
-				}
+				self.textElement.innerText = v;
 			}
 			else if (__in__ ('variable', k)) {
 				v.py_get = (function __lambda__ () {
@@ -591,8 +479,30 @@ export var Misc =  __class__ ('Misc', [object], {
 			else if (__in__ ('scrollcommand', k)) {
 				// pass;
 			}
+			else if (self.element.style [k] != undefined) {
+				self.element.style [k] = v;
+			}
 			self.options [k] = v;
 		}
+	});},
+	get config () {return __get__ (this, function (self) {
+		var kwargs = dict ();
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
+					}
+				}
+				delete kwargs.__kwargtrans__;
+			}
+		}
+		else {
+		}
+		self.configure (self, __kwargtrans__ (kwargs));
 	});},
 	get cget () {return __get__ (this, function (self, k) {
 		if (arguments.length) {
@@ -703,15 +613,15 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		if (!(py_name)) {
 			var py_name = self.__class__.__name__.lower ();
 			if (master._last_child_ids === null) {
-				master._last_child_ids = {};
+				master._last_child_ids = dict ({});
 			}
 			var count = master._last_child_ids.py_get (py_name, 0) + 1;
 			master._last_child_ids [py_name] = count;
 			if (count == 1) {
-				var py_name = __mod__ ('!%s', tuple ([py_name]));
+				var py_name = '!{}'.format (py_name);
 			}
 			else {
-				var py_name = __mod__ ('!%s%d', tuple ([py_name, count]));
+				var py_name = '!{}{}'.format (py_name, count);
 			}
 		}
 		self._name = py_name;
@@ -721,18 +631,19 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		else {
 			self._w = (master._w + '.') + py_name;
 		}
-		self.children = {};
+		self.element.id = self._w.py_replace ('.', '_').py_replace ('!', '');
+		self.children = dict ({});
 		if (__in__ (self._name, self.master.children)) {
 			self.master.children [self._name].destroy ();
 		}
 		self.master.children [self._name] = self;
 	});},
-	get __init__ () {return __get__ (this, function (self, master, widgetName, cnf, kw, extra) {
+	get __init__ () {return __get__ (this, function (self, master, widgetName, cnf, kwargs, extra) {
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		if (typeof kw == 'undefined' || (kw != null && kw.hasOwnProperty ("__kwargtrans__"))) {;
-			var kw = {};
+		if (typeof kwargs == 'undefined' || (kwargs != null && kwargs.hasOwnProperty ("__kwargtrans__"))) {;
+			var kwargs = dict ({});
 		};
 		if (typeof extra == 'undefined' || (extra != null && extra.hasOwnProperty ("__kwargtrans__"))) {;
 			var extra = tuple ([]);
@@ -747,7 +658,7 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'widgetName': var widgetName = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						case 'kw': var kw = __allkwargs0__ [__attrib0__]; break;
+						case 'kwargs': var kwargs = __allkwargs0__ [__attrib0__]; break;
 						case 'extra': var extra = __allkwargs0__ [__attrib0__]; break;
 					}
 				}
@@ -755,8 +666,10 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		}
 		else {
 		}
-		if (kw) {
-			var cnf = _cnfmerge (tuple ([cnf, kw]));
+		self.options = dict ({});
+		self._children = [];
+		if (len (kwargs.py_keys ())) {
+			var cnf = _cnfmerge (tuple ([cnf, kwargs]));
 		}
 		self.widgetName = widgetName;
 		BaseWidget._setup (self, master, cnf);
@@ -776,7 +689,7 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		}
 		else {
 		}
-		for (var c in list (self.children.py_values ())) {
+		for (var c of list (self.children.py_values ())) {
 			c.destroy ();
 		}
 		if (__in__ (self._name, self.master.children)) {
@@ -795,9 +708,9 @@ export var Button =  __class__ ('Button', [Widget], {
 			var master = null;
 		};
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -807,18 +720,18 @@ export var Button =  __class__ ('Button', [Widget], {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
 		self.element = document.createElement ('button');
-		Widget.__init__ (self, master, 'button', cnf, kw);
+		Widget.__init__ (self, master, 'button', cnf, kwargs);
 		self.element.classList.add ('TkButton');
-		self._callback = (kw ['command'] != null ? kw ['command'] : (function __lambda__ (x) {
+		self._callback = (kwargs ['command'] != null ? kwargs ['command'] : (function __lambda__ (x) {
 			if (arguments.length) {
 				var __ilastarg0__ = arguments.length - 1;
 				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -865,7 +778,6 @@ export var Button =  __class__ ('Button', [Widget], {
 		}
 		else {
 		}
-		print ("I know I should, but I shan't");
 		return null;
 	});},
 	get invoke () {return __get__ (this, function (self) {
@@ -888,14 +800,15 @@ export var Button =  __class__ ('Button', [Widget], {
 export var Tk =  __class__ ('Tk', [Misc], {
 	__module__: __name__,
 	_dragging: null,
+	__zStack__: [],
 	get __init__ () {return __get__ (this, function (self, master, cnf) {
 		if (typeof master == 'undefined' || (master != null && master.hasOwnProperty ("__kwargtrans__"))) {;
 			var master = null;
 		};
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -905,15 +818,14 @@ export var Tk =  __class__ ('Tk', [Misc], {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
-		print ('New window I guess?');
 		self.window = document.createElement ('div');
 		self.window.classList.add ('TkWindow');
 		self.window.draggable = 'true';
@@ -941,22 +853,66 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		});
 		self.menuBar.appendChild (self.closeButton);
 		self.titleSpan = document.createElement ('span');
+		self.titleSpan.classList.add ('WindowTitle', '__noselect__');
 		self.titleSpan.style.float = 'left';
 		self.titleSpan.innerText = 'Tkinter';
 		self.menuBar.appendChild (self.titleSpan);
 		self.mainFrame = document.createElement ('div');
 		self.element = self.mainFrame;
 		self.mainFrame.classList.add ('Content');
-		Widget.__init__ (self, self, 'tk', cnf, kw);
+		Widget.__init__ (self, self, 'tk', cnf, kwargs);
 		self.window.appendChild (self.menuBar);
 		self.window.appendChild (self.mainFrame);
 		document.body.appendChild (self.window);
-		self.window.ondragstart = self._dragStart;
+		self.mainFrame.ondragstart = self._dragStart;
+		self.window.onclick = (function __lambda__ () {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+					}
+				}
+			}
+			else {
+			}
+			return self._bringToTop ();
+		});
 		self.window.style.position = 'absolute';
 		self._x = 0;
 		self._y = 0;
+		var __left0__ = len (Tk.__zStack__);
+		self._z = __left0__;
+		self.window.style.zIndex = __left0__;
 		self._moveWindow (0, 0);
-		self.children = {};
+		Tk.__zStack__.append (self);
+		self.children = dict ({});
+	});},
+	get _bringToTop () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		print (self);
+		var i = Tk.__zStack__.index (self);
+		Tk.__zStack__.py_pop (i);
+		for (var above of Tk.__zStack__.__getslice__ (i, null, 1)) {
+			above._z--;
+			above.window.style.zIndex = above._z;
+		}
+		Tk.__zStack__.append (self);
+		var __left0__ = len (Tk.__zStack__);
+		self._z = __left0__;
+		self.window.style.zIndex = __left0__;
 	});},
 	get _dragStart () {return __get__ (this, function (self, e) {
 		if (arguments.length) {
@@ -973,34 +929,43 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		}
 		else {
 		}
-		e.dataTransfer.setData ('x', e.clientX);
-		e.dataTransfer.setData ('y', e.clientY);
-		print ('Drag started at ', e.clientX, e.clientY);
-		Tk._dragging = self;
-	});},
-	get _dragEnd () {return function (e) {
-		if (arguments.length) {
-			var __ilastarg0__ = arguments.length - 1;
-			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-				var __allkwargs0__ = arguments [__ilastarg0__--];
-				for (var __attrib0__ in __allkwargs0__) {
-					switch (__attrib0__) {
-						case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+		e.target = self.window;
+		var startX = e.clientX;
+		var startY = e.clientY;
+		var end = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
 					}
 				}
 			}
-		}
-		else {
-		}
-		print ('A');
-		e.preventDefault ();
-		var dx = e.clientX - int (e.dataTransfer.getData ('x'));
-		var dy = e.clientY - int (e.dataTransfer.getData ('y'));
-		print (e.pageX, e.pageY);
-		print ('S', e.dataTransfer.getData ('x'), e.dataTransfer.getData ('y'));
-		print ('Drag end at ', e.clientX, e.clientY, dx, dy);
-		Tk._dragging._moveWindow (Tk._dragging._x + dx, Tk._dragging._y + dy);
-	};},
+			else {
+			}
+			self._moveWindow ((self._x + e.clientX) - startX, (self._y + e.clientY) - startY);
+		};
+		document.body.ondrop = end;
+		document.body.ondragover = (function __lambda__ (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			return e.preventDefault ();
+		});
+	});},
 	get _moveWindow () {return __get__ (this, function (self, x, y) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
@@ -1075,7 +1040,6 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		}
 		else {
 		}
-		print (self.menuBar);
 		self.titleSpan.innerText = t;
 	});},
 	get mainloop () {return __get__ (this, function (self) {
@@ -1242,9 +1206,9 @@ export var Frame =  __class__ ('Frame', [Widget], {
 			var master = null;
 		};
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -1254,16 +1218,17 @@ export var Frame =  __class__ ('Frame', [Widget], {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
 		self.element = document.createElement ('div');
-		Widget.__init__ (self, master, 'frame', cnf, kw);
+		self.element.classList.add ('TkFrame');
+		Widget.__init__ (self, master, 'frame', cnf, kwargs);
 	});}
 });
 export var Label =  __class__ ('Label', [Widget], {
@@ -1273,9 +1238,9 @@ export var Label =  __class__ ('Label', [Widget], {
 			var master = null;
 		};
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -1285,16 +1250,17 @@ export var Label =  __class__ ('Label', [Widget], {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
 		self.element = document.createElement ('p');
-		Widget.__init__ (self, master, 'label', cnf, kw);
+		self.element.classList.add ('TkLabel');
+		Widget.__init__ (self, master, 'label', cnf, kwargs);
 	});}
 });
 export var Entry =  __class__ ('Entry', [Widget], {
@@ -1304,9 +1270,9 @@ export var Entry =  __class__ ('Entry', [Widget], {
 			var master = null;
 		};
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -1316,17 +1282,18 @@ export var Entry =  __class__ ('Entry', [Widget], {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
 		self.element = document.createElement ('input');
-		self.element.py_metatype = 'text';
-		Widget.__init__ (self, master, 'input', cnf, kw);
+		self.element.type = 'text';
+		self.element.classList.add ('TkEntry');
+		Widget.__init__ (self, master, 'input', cnf, kwargs);
 	});},
 	get getValue () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -1352,9 +1319,9 @@ export var Checkbutton =  __class__ ('Checkbutton', [Widget], {
 			var master = null;
 		};
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
-			var cnf = {};
+			var cnf = dict ({});
 		};
-		var kw = dict ();
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -1364,17 +1331,18 @@ export var Checkbutton =  __class__ ('Checkbutton', [Widget], {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'master': var master = __allkwargs0__ [__attrib0__]; break;
 						case 'cnf': var cnf = __allkwargs0__ [__attrib0__]; break;
-						default: kw [__attrib0__] = __allkwargs0__ [__attrib0__];
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
-				delete kw.__kwargtrans__;
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
 		self.element = document.createElement ('input');
-		self.element.py_metatype = 'checkbox';
-		Widget.__init__ (self, master, 'checkbox', cnf, kw);
+		self.element.classList.add ('TkCheckbutton');
+		Widget.__init__ (self, master, 'checkbutton', cnf, kwargs);
+		self.element.type = 'checkbox';
 	});},
 	get getValue () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -1410,15 +1378,12 @@ export var Variable =  __class__ ('Variable', [object], {
 		else {
 		}
 		self.val = null;
-		self.py_get = (function __lambda__ (x) {
+		self.py_get = (function __lambda__ () {
 			if (arguments.length) {
 				var __ilastarg0__ = arguments.length - 1;
 				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
 					var __allkwargs0__ = arguments [__ilastarg0__--];
 					for (var __attrib0__ in __allkwargs0__) {
-						switch (__attrib0__) {
-							case 'x': var x = __allkwargs0__ [__attrib0__]; break;
-						}
 					}
 				}
 			}
@@ -1458,7 +1423,6 @@ export var Variable =  __class__ ('Variable', [object], {
 		}
 		else {
 		}
-		print (self.val);
 		return self.py_get ();
 	});}
 });
@@ -1474,6 +1438,7 @@ export var DoubleVar =  __class__ ('DoubleVar', [Variable], {
 export var BooleanVar =  __class__ ('BooleanVar', [Variable], {
 	__module__: __name__,
 });
-document.body.ondrop = Tk._dragEnd;
+export var _dynamic_styles = document.createElement ('style');
+document.head.appendChild (_dynamic_styles);
 
 //# sourceMappingURL=tkinter.map

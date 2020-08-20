@@ -39,39 +39,35 @@ class settingsWin():
         master.mainloop()
 
     def start(self):
-        game = Tk()
-        runGame = gameWin(game, self)
-        self.master.destroy()
 
+        sizeStr = self.size.get().strip()
+        s = int(sizeStr) if(sizeStr!="" and int(sizeStr)>0) else 3
+        self.enter.destroy()
+        g = gameWin(self.master, s,self.AI.get())
 
 class gameWin():
-    def __init__(self, master, settWin):
-        if settWin.size.get() == '':
-            settWin.size.set("3")
-        print("AI: %s, Size: %s" % (settWin.AI.get(), settWin.size.get()))
-        self.settWin = settWin
-        self.placed = []
+    def __init__(self, master, size=3,ai=False):
         self.master = master
+        self.size=size
         self.turnCount = 0
-        sizeStr = settWin.size.get().strip()
-        self.size = int(sizeStr) if(sizeStr!="" and int(sizeStr)>0) else 3
-        self.board = Frame(master)
+        self.moves = 0
+        self.nextFirst = 1
+        self.board = Frame(master,height=100,width=100)
         self.turn = Label(master)
         self.turn.place(relx=.5, rely=0, anchor='n')
-        self.win = False
-        if settWin.AI.get() == True:
-            self.players = {0: ("You", "X", 'red4'),
+        if ai == True:
+            self.players = {0: ("You", "X", 'red'),
                             1: ("The AI", "O", 'blue')}
             self.turn.config(text="It's Your turn")
-            print("Sorry, no AI available yet")
-        else:
-            self.players = {0: ("Player 1", "X", 'red4'),
-                            1: ("Player 2", "O", 'blue')}
-            self.turn.config(text="It is %s's turn" %
-                             self.players[self.turnCount][0])
-            print("Grab a friend!")
 
-        self.buttons = [[gameButton(self, coord=(col, row)) for col in range(
+        else:
+            self.players = {0: ("Player 1", "X", 'red'),
+                            1: ("Player 2", "O", 'blue')}
+            self.turn.config(text=f"It is {self.players[self.turnCount][0]}'s turn")
+
+
+
+        self.buttons = [[gameWin.gameButton(self, (row,col)) for col in range(
             int(self.size))] for row in range(int(self.size))]
 
         # master.update()
@@ -85,78 +81,108 @@ class gameWin():
         self.board.place(relx=.5, rely=.55, anchor='center')
 
         master.mainloop()
+    def reset(self):
+        setTimeout(lambda: self._reset(),2000)
+    def _reset(self):
+        self.turnCount = self.nextFirst
+        self.moves = 0
+        self.nextFirst+=1
+        self.nextFirst%=2
+        for r in self.buttons:
+            for b in r:
+                b.config(text = "",state="enabled",background='none',foreground = "white")
+                b.played = False
+        self.turn.config(text=f"It is {self.players[self.turnCount][0]}'s turn")
 
 
-class gameButton():
-    def __init__(self, window, coord):
-        self.window = window
-        self.coord = coord
-        self.button = Button(
-            window.board, width=2, command=lambda: self.play())
-        self.button.grid(column=coord[0], row=coord[1])
-        self.player = window.players[self.window.turnCount][0]
+    class gameButton(Button):
+        def __init__(self, window, coord):
+            Button.__init__(self,window.board, command=lambda: self.play())
+            self.window = window
+            self.coord = coord
+            self.grid(row=coord[0], column=coord[1],sticky = "nesw")
+            self.played = False
+            self.config(background='none',foreground = "white",border="1px solid black")
 
-    def play(self):
-        self.toCheck = []
-        self.wrongFond = False
-        self.player = self.window.players[self.window.turnCount][0]
-        print(self.player)
-        self.marker = self.window.players[self.window.turnCount][1]
-        self.color = self.window.players[self.window.turnCount][2]
-        self.button.config(text="%s" % self.marker)
-        self.window.placed.append(self.coord)
-        self.button.config(state='disabled', relief='raised',
-                           disabledforeground=self.color)
+        def play(self):
+            if(self.played):
+                return      
+            self.window.moves+=1
+            self.played = True      
+            wrongFound = False
+            player = self.window.players[self.window.turnCount][0]
 
-        for pair in positions:
-            self.direction = []
-            for iter in range(self.window.size):
-                self.newCol = self.coord[0]+(pair[0]*(iter))
-                self.newRow = self.coord[1]+(pair[1]*(iter))
-                if (0 <= self.newCol < self.window.size) and (0 <= self.newRow < self.window.size):
-                    self.direction.append(
-                        self.window.buttons[self.newRow][self.newCol].button)
-                self.newCol = self.coord[0]+(pair[0]*(-iter))
-                self.newRow = self.coord[1]+(pair[1]*(-iter))
-                if (0 <= self.newCol < self.window.size) and (0 <= self.newRow < self.window.size):
-                    self.direction.append(
-                        self.window.buttons[self.newRow][self.newCol].button)
-            self.toCheck.append(self.direction)
+            marker = self.window.players[self.window.turnCount][1]
+            color = self.window.players[self.window.turnCount][2]
+            
+            self.config(text=str(marker))
+            self.config(state='disabled',
+                            disabledforeground=color,foreground=color)
+            
+            toHiglight = None
 
-        for direction in self.toCheck:
-            self.correct = 0
-            for label in direction:
-                if label.cget('text') == self.marker:
-                    self.correct += 1
-            if self.correct-1 == self.window.size:
-                for button in direction:
-                    button.config(disabledforeground='green')
-                self.window.win = True
-                print("%r Won!" % self.player)
-                for child in self.window.board.winfo_children():
-                    child.config(state='disabled')
-                self.window.turn.config(text="%s Won!" % self.player)
-                for y in self.toCheck:
-                    for i in y:
-                        print(i.cget('text'),)
-                return
-        if len(self.window.placed) == (self.window.size**2):
-            for child in self.window.board.winfo_children():
-                child.config(state='disabled')
-            self.window.turn.config(text="It's a draw!")
-        else:
-            if not self.window.win:
+            # Check in row
+            if(self.checkRow(marker)):
+                toHiglight = self.window.buttons[self.coord[0]]
+            elif(self.checkColumn(marker)):
+                toHiglight = [row[self.coord[1]] for row in self.window.buttons]
+            elif(self.checkDownDiag(marker)):
+                toHiglight = [self.window.buttons[i][i] for i in range(self.window.size)]
+            elif(self.checkUpDiag(marker)):
+                toHiglight = [self.window.buttons[self.window.size-1-i][i] for i in range(self.window.size)]
+            print(self.window.moves,self.window.moves == (self.window.size**2))
+            if toHiglight!=None:
+                for button in toHiglight:
+                    button.config(background='green',foreground = "white")
+                for row in self.window.buttons:
+                    for button in row:
+                        if(not button.played):
+                            button.configure(state='disabled')
+                
+                self.window.turn.config(text=f"{player} Won!")
+                self.window.reset()
+            elif self.window.moves == (self.window.size**2):
+                for row in self.window.buttons:
+                    for button in row:
+                        if(not button.played):
+                            button.config(state='disabled',background="red")
+                self.window.turn.config(text="It's a draw!")
+                self.window.reset()
+            else:
                 self.window.turnCount += 1
                 self.window.turnCount %= 2
-                self.player = self.window.players[self.window.turnCount][0]
-                if self.player == 'You':
-                    pass
-            elif self.player == "The AI":
-                pass
-                # learning.learn(self.window)
-            else:
-                self.window.turn.config(text="It is %s's turn" % self.player)
+                player = self.window.players[self.window.turnCount][0]
+                self.window.turn.config(text=f"It is {player}'s turn")
 
-# print(Tk)
-root = Tk()
-settings = settingsWin(root)
+        def checkRow(self,marker): 
+            for i in range(self.window.size):
+                b=self.window.buttons[self.coord[0]][i]
+                if((not b.played) or b.cget("text")!=marker):
+                    return False
+            return True
+        def checkColumn(self,marker): 
+            for i in range(self.window.size):
+                b=self.window.buttons[i][self.coord[1]]
+                if((not b.played) or b.cget("text")!=marker):
+                    return False
+            return True
+        def checkDownDiag(self,marker): 
+            for i in range(self.window.size):
+                b=self.window.buttons[i][i]
+                if((not b.played) or b.cget("text")!=marker):
+                    return False
+            return True
+        def checkUpDiag(self,marker): 
+            for i in range(self.window.size):
+                b=self.window.buttons[self.window.size-1-i][i]
+                if((not b.played) or b.cget("text")!=marker):
+                    return False
+            return True
+l = 0
+def n():
+    root = Tk()
+    settings = settingsWin(root)
+    root.window.style.left = f"{100*l}px"
+    l+=1
+
+n()

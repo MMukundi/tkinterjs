@@ -1,4 +1,27 @@
 import re
+
+# _magic_re = re.compile(r'([\\{}])')
+# _space_re = re.compile(r'([\s])', re.ASCII)
+_support_default_root = 1
+_default_root = None
+
+
+N = "n"
+NE = "ne"
+E = "e"
+SE = "se"
+S = "s"
+SW = "sw"
+W = "w"
+NW = "nw"
+
+Yes = "yes"
+No = "no"
+
+GRID = "grid"
+PACK = "pack"
+PLACE = "place"
+
 def _join(value):
     """Internal function."""
     return ' '.join(map(_stringify, value))
@@ -29,33 +52,39 @@ def _stringify(value):
 
 def _flatten(seq):
     """Internal function."""
-    res = ()
+    res = []
+
     for item in seq:
+
         if isinstance(item, (tuple, list)):
-            res = res + _flatten(item)
+            res += _flatten(item)
         elif item is not None:
-            res = res + (item,)
-    return res
+
+            res.append(item)
+    return tuple(res)
 
 # try: _flatten = _tkinter._flatten
 # except AttributeError: pass
 
 def _cnfmerge(cnfs):
     """Internal function."""
+
     if isinstance(cnfs, dict):
         return cnfs
     elif isinstance(cnfs, (type(None), str)):
         return cnfs
     else:
         cnf = {}
-        for c in _flatten(cnfs):
+        f = _flatten(cnfs)
+
+        for c in f:
+
             try:
                 cnf.update(c)
-            except (AttributeError, TypeError) as msg:
-                print("_cnfmerge: fallback due to:", msg)
-                for i in c.items():
-                    k = i[0]
-                    v = i[1]
+            except:
+
+                for k in c:
+                    v = c[k]
                     cnf[k] = v
         return cnf
 
@@ -66,3 +95,6 @@ _magic_re = re.compile(r'([\\{}])')
 _space_re = re.compile(r'([\s])', re.ASCII)
 _support_default_root = 1
 _default_root = None
+
+def _toBool(v):
+    return v!=None and (v=="yes" or v==1 or v==True)
