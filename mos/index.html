@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel = "stylesheet" type="text/css" href="../tk.css">
-    <link rel = "stylesheet" type="text/css" href="./mOS.css">
-    <link rel = "stylesheet" type="text/css" href="./style.css">
-      <script type="module">import * as tt from '../__target__/tictac.js'; window.tt = tt;</script>
-      <script src="../py.js" defer></script>
-      <script src="./mOS.js" defer></script>
-  </head>
-  <body>
+    <link rel="stylesheet" type="text/css" href="../tk.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./mOS.css"> -->
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <script src=//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.3.10/seedrandom.min.js>
+    </script>
+    <!-- <script type="module">import * as tt from '../__target__/tictac.js'; window.tt = tt;</script> -->
+    <script type="module">import * as mos from '../__target__/mOSFull.js'; window.mos = mos;</script>
+    <script src="../py.js" defer></script>
+    <script src="./mOS.js" defer></script>
+</head>
+
+<body>
     <div id="footer">
-      <div id="startButton"></div></div>
-  </body>
+        <div id="startButton"></div>
+    </div>
+</body>
+
 </html>

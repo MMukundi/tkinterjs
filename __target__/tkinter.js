@@ -1,7 +1,102 @@
-// Transcrypt'ed from Python, 2020-08-20 03:03:19
+// Transcrypt'ed from Python, 2020-09-14 22:32:39
+var re = {};
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, abs, all, any, assert, bool, bytearray, bytes, callable, chr, copy, deepcopy, delattr, dict, dir, divmod, enumerate, filter, float, getattr, hasattr, input, int, isinstance, issubclass, len, list, map, max, min, object, ord, pow, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, round, set, setattr, sorted, str, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
-import {E, GRID, N, NE, NW, No, PACK, PLACE, S, SE, SW, W, Yes, _cnfmerge, _default_root, _flatten, _join, _magic_re, _space_re, _stringify, _support_default_root, _toBool} from './helperFunc.js';
+import * as __module_re__ from './re.js';
+__nest__ (re, '', __module_re__);
+import {_cnfmerge, _flatten, _join, _magic_re, _space_re, _stringify, _toBool} from './helperFunc.js';
 var __name__ = 'tkinter';
+export var StyleManager =  __class__ ('StyleManager', [object], {
+	__module__: __name__,
+	get __init__ () {return __get__ (this, function (self, ss) {
+		self.ss = ss;
+		self.ids = [];
+	});},
+	get updateStyle () {return __get__ (this, function (self, elementId, styleTag, rule) {
+		var py_selector = (elementId + ':-:') + styleTag;
+		var index = self.ids.index (py_selector);
+		if (index != -(1)) {
+			self.ss.sheet.removeRule (index);
+		}
+		return self.ss.sheet.insertRule (rule, (index == -(1) ? self.ss.sheet.cssRules.length : index));
+	});},
+	get addStyle () {return __get__ (this, function (self, elementId, styleTag, rule, index) {
+		if (typeof index == 'undefined' || (index != null && index.hasOwnProperty ("__kwargtrans__"))) {;
+			var index = null;
+		};
+		var py_selector = (elementId + ':-:') + styleTag;
+		if (index == null) {
+			self.ids.append (py_selector);
+			var index = self.ss.sheet.cssRules.length;
+		}
+		else {
+			self.ids.insert (index, py_selector);
+		}
+		return self.ss.sheet.insertRule (rule, index);
+	});},
+	get deleteStyle () {return __get__ (this, function (self, elementId, styleTag) {
+		var py_selector = (elementId + ':-:') + styleTag;
+		var index = self.ids.index (py_selector);
+		self.ss.sheet.removeRule (index);
+		delete ids [index];
+	});}
+});
+export var cssChars = re.compile ('(%|px|em|rm|vh|vw)');
+export var resizeArea = 10;
+export var _support_default_root = 1;
+export var _default_root = null;
+export var N = 'N';
+export var NE = 'NE';
+export var E = 'E';
+export var SE = 'SE';
+export var S = 'S';
+export var SW = 'SW';
+export var W = 'W';
+export var NW = 'NW';
+export var CENTER = 'CENTER';
+export var X = 'X';
+export var Y = 'Y';
+export var BOTH = 'BOTH';
+export var YES = 'YES';
+export var NO = 'NO';
+export var GRID = 'GRID';
+export var PACK = 'PACK';
+export var PLACE = 'PLACE';
+export var TOP = 'TOP';
+export var LEFT = 'LEFT';
+export var RIGHT = 'RIGHT';
+export var BOTTOM = 'BOTTOM';
+export var _toCss = function (v) {
+	if (arguments.length) {
+		var __ilastarg0__ = arguments.length - 1;
+		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+			var __allkwargs0__ = arguments [__ilastarg0__--];
+			for (var __attrib0__ in __allkwargs0__) {
+				switch (__attrib0__) {
+					case 'v': var v = __allkwargs0__ [__attrib0__]; break;
+				}
+			}
+		}
+	}
+	else {
+	}
+	return (isNaN (v) ? v : v + 'px');
+};
+export var _fromCss = function (css) {
+	if (arguments.length) {
+		var __ilastarg0__ = arguments.length - 1;
+		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+			var __allkwargs0__ = arguments [__ilastarg0__--];
+			for (var __attrib0__ in __allkwargs0__) {
+				switch (__attrib0__) {
+					case 'css': var css = __allkwargs0__ [__attrib0__]; break;
+				}
+			}
+		}
+	}
+	else {
+	}
+	return cssChars.sub ('', css);
+};
 export var LayoutManager =  __class__ ('LayoutManager', [object], {
 	__module__: __name__,
 	get _addToMaster () {return __get__ (this, function (self) {
@@ -26,33 +121,33 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 	__module__: __name__,
 	master: null,
 	element: null,
-	get __setupGrid__ () {return __get__ (this, function (self) {
+	get __setup__ () {return function (container) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
 				var __allkwargs0__ = arguments [__ilastarg0__--];
 				for (var __attrib0__ in __allkwargs0__) {
 					switch (__attrib0__) {
-						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'container': var container = __allkwargs0__ [__attrib0__]; break;
 					}
 				}
 			}
 		}
 		else {
 		}
-		self.nextRow = 0;
-		self.occupiedRows = set ();
-		self.columns = 1;
-		if (self.master.layoutMethod == null) {
-			self.master.layoutMethod = GRID;
-			self.master.element.classList.add ('grid');
+		container.nextRow = 0;
+		container.occupiedRows = set ();
+		container.columns = 1;
+		if (container.layoutMethod == null) {
+			container.layoutMethod = GRID;
+			container.element.classList.add ('grid');
 		}
-		else if (self.master.layoutMethod != GRID) {
-			var __except0__ = Exception ('Cannot use grid with an element in {} mode'.format (self.master.layoutMethod));
+		else if (container.layoutMethod != GRID) {
+			var __except0__ = Exception ('{}{}{}'.format (container.layoutMethod));
 			__except0__.__cause__ = null;
 			throw __except0__;
 		}
-	});},
+	};},
 	get grid () {return __get__ (this, function (self, column, columnspan, in_, ipadx, ipady, padx, pady, row, rowspan, sticky) {
 		if (typeof column == 'undefined' || (column != null && column.hasOwnProperty ("__kwargtrans__"))) {;
 			var column = 0;
@@ -84,6 +179,7 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 		if (typeof sticky == 'undefined' || (sticky != null && sticky.hasOwnProperty ("__kwargtrans__"))) {;
 			var sticky = null;
 		};
+		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -101,25 +197,28 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 						case 'row': var row = __allkwargs0__ [__attrib0__]; break;
 						case 'rowspan': var rowspan = __allkwargs0__ [__attrib0__]; break;
 						case 'sticky': var sticky = __allkwargs0__ [__attrib0__]; break;
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
+				delete kwargs.__kwargtrans__;
 			}
 		}
 		else {
 		}
-		if (self.master.layoutMethod != GRID || !(hasattr (self, 'occupiedRows'))) {
-			self.__setupGrid__ ();
+		var container = (kwargs ['in'] != null ? kwargs ['in'] : self.master);
+		if (container.layoutMethod != GRID || !(hasattr (container, 'occupiedRows'))) {
+			Grid.__setup__ (container);
 		}
 		if (column == null) {
 			var column = 0;
 		}
 		if (row == null) {
 			var row = 0;
-			while (__in__ (row, self.occupiedRows)) {
-				row++;
+			while (__in__ (row, container.occupiedRows)) {
+				row += 1;
 			}
 		}
-		self.occupiedRows.add (row);
+		container.occupiedRows.add (row);
 		if (sticky != null) {
 			var sticky = sticky.lower ();
 			if (__in__ ('n', sticky) && __in__ ('s', sticky)) {
@@ -156,9 +255,42 @@ export var Grid =  __class__ ('Grid', [LayoutManager], {
 		self._addToMaster ();
 	});}
 });
-export var Place =  __class__ ('Place', [LayoutManager], {
+export var Pack =  __class__ ('Pack', [LayoutManager], {
 	__module__: __name__,
-	get place () {return __get__ (this, function (self) {
+	element: null,
+	master: null,
+	get __setup__ () {return function (container) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'container': var container = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		container.packingList = [];
+		container._last_top = null;
+		container._last_bottom = null;
+		container._last_element = null;
+		container.element.style.display = 'flex';
+		container.element.style.flexDirection = 'column';
+		container.layoutMethod = PACK;
+	};},
+	get pack () {return __get__ (this, function (self, expand, side, fill) {
+		if (typeof expand == 'undefined' || (expand != null && expand.hasOwnProperty ("__kwargtrans__"))) {;
+			var expand = null;
+		};
+		if (typeof side == 'undefined' || (side != null && side.hasOwnProperty ("__kwargtrans__"))) {;
+			var side = null;
+		};
+		if (typeof fill == 'undefined' || (fill != null && fill.hasOwnProperty ("__kwargtrans__"))) {;
+			var fill = null;
+		};
 		var kwargs = dict ();
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
@@ -167,6 +299,9 @@ export var Place =  __class__ ('Place', [LayoutManager], {
 				for (var __attrib0__ in __allkwargs0__) {
 					switch (__attrib0__) {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'expand': var expand = __allkwargs0__ [__attrib0__]; break;
+						case 'side': var side = __allkwargs0__ [__attrib0__]; break;
+						case 'fill': var fill = __allkwargs0__ [__attrib0__]; break;
 						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
 					}
 				}
@@ -175,6 +310,161 @@ export var Place =  __class__ ('Place', [LayoutManager], {
 		}
 		else {
 		}
+		var container = (kwargs ['in'] != null ? kwargs ['in'] : self.master);
+		if (container.layoutMethod != PACK || !(hasattr (self, '_last_top'))) {
+			Pack.__setup__ (container);
+		}
+		if (side == TOP) {
+			if (container._last_top == null) {
+				if (container._last_element == null) {
+					container.element.appendChild (self.element);
+				}
+				else {
+					container._last_element.before (self.element);
+				}
+			}
+			else {
+				container._last_top.after (self.element);
+			}
+			container._last_top = self.element;
+		}
+		else if (side == BOTTOM) {
+			if (container._last_bottom == null) {
+				if (container._last_element == null) {
+					container.element.appendChild (self.element);
+				}
+				else {
+					container._last_element.after (self.element);
+				}
+			}
+			else {
+				container._last_bottom.before (self.element);
+			}
+			container._last_bottom = self.element;
+		}
+		else {
+			if (container._last_element == null) {
+				container.element.appendChild (self.element);
+			}
+			else {
+				container._last_element.after (self.element);
+			}
+			self.element.alignSelf = (side == LEFT ? 'flex-start' : 'flex-end');
+		}
+		container._last_element = self.element;
+	});}
+});
+export var Place =  __class__ ('Place', [LayoutManager], {
+	__module__: __name__,
+	master: null,
+	element: null,
+	get __setup__ () {return function (container) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'container': var container = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		container.element.style.display = 'flex';
+		container.layoutMethod = PLACE;
+	};},
+	get place () {return __get__ (this, function (self, x, y, relx, rely, width, height, relwidth, relheight, anchor) {
+		if (typeof x == 'undefined' || (x != null && x.hasOwnProperty ("__kwargtrans__"))) {;
+			var x = 0;
+		};
+		if (typeof y == 'undefined' || (y != null && y.hasOwnProperty ("__kwargtrans__"))) {;
+			var y = 0;
+		};
+		if (typeof relx == 'undefined' || (relx != null && relx.hasOwnProperty ("__kwargtrans__"))) {;
+			var relx = 0;
+		};
+		if (typeof rely == 'undefined' || (rely != null && rely.hasOwnProperty ("__kwargtrans__"))) {;
+			var rely = 0;
+		};
+		if (typeof width == 'undefined' || (width != null && width.hasOwnProperty ("__kwargtrans__"))) {;
+			var width = 0;
+		};
+		if (typeof height == 'undefined' || (height != null && height.hasOwnProperty ("__kwargtrans__"))) {;
+			var height = 0;
+		};
+		if (typeof relwidth == 'undefined' || (relwidth != null && relwidth.hasOwnProperty ("__kwargtrans__"))) {;
+			var relwidth = 0;
+		};
+		if (typeof relheight == 'undefined' || (relheight != null && relheight.hasOwnProperty ("__kwargtrans__"))) {;
+			var relheight = 0;
+		};
+		if (typeof anchor == 'undefined' || (anchor != null && anchor.hasOwnProperty ("__kwargtrans__"))) {;
+			var anchor = NW;
+		};
+		var kwargs = dict ();
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'x': var x = __allkwargs0__ [__attrib0__]; break;
+						case 'y': var y = __allkwargs0__ [__attrib0__]; break;
+						case 'relx': var relx = __allkwargs0__ [__attrib0__]; break;
+						case 'rely': var rely = __allkwargs0__ [__attrib0__]; break;
+						case 'width': var width = __allkwargs0__ [__attrib0__]; break;
+						case 'height': var height = __allkwargs0__ [__attrib0__]; break;
+						case 'relwidth': var relwidth = __allkwargs0__ [__attrib0__]; break;
+						case 'relheight': var relheight = __allkwargs0__ [__attrib0__]; break;
+						case 'anchor': var anchor = __allkwargs0__ [__attrib0__]; break;
+						default: kwargs [__attrib0__] = __allkwargs0__ [__attrib0__];
+					}
+				}
+				delete kwargs.__kwargtrans__;
+			}
+		}
+		else {
+		}
+		var container = (kwargs ['in'] != null ? kwargs ['in'] : self.master);
+		if (container.layoutMethod != PLACE || !(container.element.style.display == 'flex')) {
+			Place.__setup__ (container);
+		}
+		self.element.style.position = 'absolute';
+		var anchor = anchor.upper ();
+		var __left0__ = 50;
+		var transformX = __left0__;
+		var transformY = __left0__;
+		self.element.style.top = ((('calc(' + int (float (rely) * 100)) + '% + ') + y) + 'px)';
+		self.element.style.left = ((('calc(' + int (float (relx) * 100)) + '% + ') + x) + 'px)';
+		if (anchor != CENTER) {
+			if (__in__ (N, anchor)) {
+				var transformY = 0;
+			}
+			if (__in__ (E, anchor)) {
+				var transformX = 100;
+			}
+			if (__in__ (S, anchor)) {
+				var transformY = 100;
+			}
+			if (__in__ (W, anchor)) {
+				var transformX = 0;
+			}
+		}
+		var __left0__ = ((('translate(' + -(transformX)) + '%,') + -(transformY)) + '%)';
+		self.element.style ['-ms-transform'] = __left0__;
+		self.element.style ['-webkit-transform'] = __left0__;
+		if (relwidth != 0 || width != 0) {
+			var rw = int (float (relwidth) * 100);
+			self.element.style.width = ((('calc(' + rw) + '% + ') + width) + 'px)';
+		}
+		if (relheight != 0 || height != 0) {
+			var rh = int (float (relheight) * 100);
+			self.element.style.height = ((('calc(' + rh) + '% + ') + height) + 'px)';
+		}
+		self.element.placed = true;
 		self._addToMaster ();
 	});}
 });
@@ -182,7 +472,7 @@ export var Misc =  __class__ ('Misc', [object], {
 	__module__: __name__,
 	element: null,
 	_last_child_ids: null,
-	getValue: (function __lambda__ (x) {
+	py_get: (function __lambda__ (x) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -201,6 +491,225 @@ export var Misc =  __class__ ('Misc', [object], {
 	options: dict ({}),
 	_children: [],
 	textElement: null,
+	get _create_text_element () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		if (self.textElement == null) {
+			if (isinstance (self, Label)) {
+				self.textElement = self.element;
+			}
+			else {
+				if (isinstance (self, [Checkbutton, Entry])) {
+					self.textElement = document.createElement ('label');
+					self.textElement ['for'] = self.element.id;
+					self.element.before (self.textElement);
+				}
+				else {
+					self.textElement = document.createElement ('span');
+					self.master.element.appendChild (self.textElement);
+					self.textElement.style.width = '100%';
+					self.textElement.style.height = '100%';
+					self.element.appendChild (self.textElement);
+				}
+				self.textElement.style.display = 'flex';
+				self.textElement.style.alignItems = 'center';
+				self.textElement.style.justifyContent = 'center';
+				self.textElement.style.position = 'relative';
+			}
+		}
+	});},
+	get bind () {return __get__ (this, function (self, sequence, func) {
+		if (typeof sequence == 'undefined' || (sequence != null && sequence.hasOwnProperty ("__kwargtrans__"))) {;
+			var sequence = null;
+		};
+		if (typeof func == 'undefined' || (func != null && func.hasOwnProperty ("__kwargtrans__"))) {;
+			var func = null;
+		};
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'sequence': var sequence = __allkwargs0__ [__attrib0__]; break;
+						case 'func': var func = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		var sequenceArr = sequence.__getslice__ (1, -(1), 1).py_split ('-');
+		var __left0__ = '';
+		var m = __left0__;
+		var t = __left0__;
+		var d = __left0__;
+		var indecies = [0];
+		var l = len (sequenceArr);
+		if (l < 1 || l > 4) {
+			return false;
+		}
+		else if (l == 1) {
+			var t = sequenceArr [0];
+		}
+		else {
+			var t = sequenceArr [l - 2];
+			var d = sequenceArr [l - 1];
+			var indecies = (function () {
+				var __accu0__ = [];
+				for (var s of sequenceArr.__getslice__ (0, l - 2, 1)) {
+					__accu0__.append (['control', 'alt', 'shift', 'meta'].index (s.lower ()) + 1);
+				}
+				return __accu0__;
+			}) ();
+		}
+		if (t.find ('Button') == 0) {
+			if (len (t) > 6) {
+				var d = t.__getslice__ (6, null, 1);
+				var t = 'Button';
+			}
+			if (!(self._function_bindings_ [t])) {
+				self._function_bindings_ [t] = [dict ({}), dict ({}), dict ({}), dict ({}), dict ({})];
+			}
+			for (var i of indecies) {
+				self._function_bindings_ [t] [i] [d] = func;
+			}
+		}
+		else {
+			if (!(self._function_bindings_ [t])) {
+				self._function_bindings_ [t] = [null, null, null, null, null];
+			}
+			for (var i of indecies) {
+				self._function_bindings_ [t] [i] = func;
+			}
+		}
+	});},
+	get _bindFunctions () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		var eventIndecies = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			var inds = [];
+			if (e.ctrlKey) {
+				inds.append (1);
+			}
+			if (e.altKey) {
+				inds.append (2);
+			}
+			if (e.shiftKey) {
+				inds.append (3);
+			}
+			if (e.metaKey) {
+				inds.append (4);
+			}
+			return (len (inds) > 0 ? inds : [0]);
+		};
+		var _buttonHandler = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			e.preventDefault ();
+			var allHandlers = self._function_bindings_ ['Button'];
+			if (!(allHandlers)) {
+				return ;
+			}
+			var button = e.button + 1;
+			var rect = e.target.getBoundingClientRect ();
+			for (var i of eventIndecies (e)) {
+				if (allHandlers [i] && allHandlers [i] [button]) {
+					allHandlers [i] [button] (dict ([['widget', self], ['x', e.clientX - rect.left], ['y', e.clientY - rect.top]]));
+				}
+			}
+		};
+		var _wheelHandler = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			e.preventDefault ();
+			var allHandlers = self._function_bindings_ ['MouseWheel'];
+			if (!(allHandlers)) {
+				return ;
+			}
+			var rect = e.target.getBoundingClientRect ();
+			for (var i of eventIndecies (e)) {
+				if (allHandlers [i]) {
+					allHandlers [i] (dict ([['widget', self], ['delta', e.deltaY], ['x', e.clientX - rect.left], ['y', e.clientY - rect.top]]));
+				}
+			}
+		};
+		self.element.onclick = _buttonHandler;
+		self.element.onscroll = _wheelHandler;
+		self._function_bindings_ = dict ({});
+		if (self.master && self.master._function_bindings_) {
+			for (var t of self.master._function_bindings_.py_keys ()) {
+				if (t == 'Button') {
+					self._function_bindings_ [t] = [dict ({}), dict ({}), dict ({}), dict ({}), dict ({})];
+					for (var i = 0; i < 5; i++) {
+						console.log (self.master._function_bindings_ [t] [i]);
+						self._function_bindings_ [t] [i] = self.master._function_bindings_ [t] [i].copy ();
+					}
+				}
+				else {
+					self._function_bindings_ [t] = [null, null, null, null, null];
+				}
+			}
+		}
+	});},
 	get destroy () {return __get__ (this, function (self) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
@@ -232,8 +741,7 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		else {
 		}
-		var geo = list (map (int, g.py_split ('x')));
-		return tuple ([min (self.maxWidth, max (geo [0], self.minWidth)), min (self.maxHeight, max (geo [1], self.minHeight))]);
+		return list (map (_toCss, g.py_split ('x')));
 	});},
 	get geometry () {return __get__ (this, function (self, g) {
 		if (arguments.length) {
@@ -253,8 +761,8 @@ export var Misc =  __class__ ('Misc', [object], {
 		var __left0__ = self._geometry (g);
 		var w = __left0__ [0];
 		var h = __left0__ [1];
-		self.element.style.width = '{}px'.format (w);
-		self.element.style.height = '{}px'.format (h);
+		self.element.style.width = w;
+		self.element.style.height = h;
 	});},
 	get maxsize () {return __get__ (this, function (self, w, h) {
 		if (arguments.length) {
@@ -272,8 +780,8 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		else {
 		}
-		self.maxWidth = w;
-		self.maxHeight = h;
+		self.element.style.maxWidth = _toCss (w);
+		self.element.style.maxHeight = _toCss (h);
 	});},
 	get minsize () {return __get__ (this, function (self, w, h) {
 		if (arguments.length) {
@@ -291,8 +799,8 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		else {
 		}
-		self.minWidth = w;
-		self.minHeight = h;
+		self.element.style.minWidth = _toCss (w);
+		self.element.style.minHeight = _toCss (h);
 	});},
 	get configure () {return __get__ (this, function (self) {
 		var kwargs = dict ();
@@ -313,38 +821,34 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		for (var k of kwargs.py_keys ()) {
 			var v = kwargs [k];
-			if (k == 'activebackground') {
+			if (k == 'activebackground' || k == 'activebg') {
+				var k = 'activebackground';
 				// pass;
 			}
-			else if (k == 'activeforeground') {
+			else if (k == 'activeforeground' || k == 'activefg') {
+				var k = 'activeforeground';
 				// pass;
 			}
 			else if (k == 'anchor') {
 				if (self.textElement == null) {
-					self.textElement = document.createElement ('div');
-					self.element.appendChild (self.textElement);
-					self.textElement.style.width = '100%';
-					self.textElement.style.height = '100%';
-					self.textElement.style.display = 'flex';
-					self.textElement.style.alignItems = 'center';
-					self.textElement.style.justifyContent = 'center';
-					self.textElement.style.position = 'relative';
+					self._create_text_element ();
 				}
 				var v = v.lower ();
 				if (__in__ ('n', v)) {
-					self.textElement.element.style.alignItems = 'top';
+					self.textElement.style.alignItems = 'top';
 				}
 				if (__in__ ('e', v)) {
-					self.textElement.element.style.justifyContent = 'right';
+					self.textElement.style.justifyContent = 'right';
 				}
 				if (__in__ ('s', v)) {
-					self.textElement.element.style.alignItems = 'bottom';
+					self.textElement.style.alignItems = 'bottom';
 				}
 				if (__in__ ('w', v)) {
-					self.textElement.element.style.justifyContent = 'left';
+					self.textElement.style.justifyContent = 'left';
 				}
 			}
-			else if (k == 'background') {
+			else if (k == 'background' || k == 'bg') {
+				var k = 'background';
 				self.element.style [k] = v;
 			}
 			else if (k == 'bitmap') {
@@ -357,25 +861,23 @@ export var Misc =  __class__ ('Misc', [object], {
 				self.element.style.cursor = v;
 			}
 			else if (k == 'disabledforeground') {
-				if (hasattr (self, '_dfgid')) {
-					_dynamic_styles.sheet.deleteRule (self._dfgid);
-				}
-				var s = (('#{}:disabled'.format (self.element.id) + '{color:') + v) + '}';
-				self._dfgid = _dynamic_styles.sheet.insertRule (s, _dynamic_styles.sheet.cssRules.length);
+				var s = ((('#' + self.element.id) + ':disabled{color:') + v) + '}';
+				_dynamic_style_manager.updateStyle (self._w, 'dfg', s);
 				// pass;
 			}
 			else if (k == 'font') {
 				self.element.style.fontFamily = v;
 			}
-			else if (k == 'foreground') {
+			else if (k == 'foreground' || k == 'fg') {
+				var k = 'foreground';
 				self.element.style.color = v;
 			}
 			else if (k == 'height' || k == 'width') {
-				if (isNaN (v)) {
-					self.element.style [k] = v;
+				if (k == 'width' && isinstance (self, Entry)) {
+					self.element.style [k] = v + 'ch';
 				}
 				else {
-					self.element.style [k] = '{}px'.format (v);
+					self.element.style [k] = _toCss (v);
 				}
 			}
 			else if (k == 'highlightbackground') {
@@ -428,6 +930,7 @@ export var Misc =  __class__ ('Misc', [object], {
 				// pass;
 			}
 			else if (k == 'state') {
+				console.log (v);
 				self.element.disabled = v == 'disabled';
 			}
 			else if (k == 'takefocus') {
@@ -440,17 +943,8 @@ export var Misc =  __class__ ('Misc', [object], {
 				}
 			}
 			else if (k == 'text') {
-				if (self.textElement == null) {
-					self.textElement = document.createElement ('div');
-					self.element.appendChild (self.textElement);
-					self.textElement.style.width = '100%';
-					self.textElement.style.height = '100%';
-					self.textElement.style.display = 'flex';
-					self.textElement.style.alignItems = 'center';
-					self.textElement.style.justifyContent = 'center';
-					self.textElement.style.position = 'relative';
-				}
-				self.textElement.innerText = v;
+				self._create_text_element ();
+				self.textElement.textContent = v;
 			}
 			else if (__in__ ('variable', k)) {
 				v.py_get = (function __lambda__ () {
@@ -464,7 +958,7 @@ export var Misc =  __class__ ('Misc', [object], {
 					}
 					else {
 					}
-					return self.getValue ();
+					return self.py_get ();
 				});
 			}
 			else if (k == 'troughcolor') {
@@ -521,6 +1015,38 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		return self.options [k];
 	});},
+	get winfo_height () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		return self.element.scrollHeight;
+	});},
+	get winfo_width () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		return self.element.scrollWidth;
+	});},
 	get winfo_reqheight () {return __get__ (this, function (self) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
@@ -535,7 +1061,7 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		else {
 		}
-		return self.element.clientHeight;
+		return self.element.scrollHeight;
 	});},
 	get winfo_reqwidth () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -551,7 +1077,7 @@ export var Misc =  __class__ ('Misc', [object], {
 		}
 		else {
 		}
-		return self.element.clientWidth;
+		return self.element.scrollWidth;
 	});},
 	get winfo_children () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -595,7 +1121,6 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		else {
 		}
 		self.layoutMethod = null;
-		self.element.onresize;
 		if (_support_default_root) {
 			if (!(master)) {
 				if (!(_default_root)) {
@@ -618,10 +1143,10 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 			var count = master._last_child_ids.py_get (py_name, 0) + 1;
 			master._last_child_ids [py_name] = count;
 			if (count == 1) {
-				var py_name = '!{}'.format (py_name);
+				var py_name = '!' + py_name;
 			}
 			else {
-				var py_name = '!{}{}'.format (py_name, count);
+				var py_name = ('!' + py_name) + count;
 			}
 		}
 		self._name = py_name;
@@ -637,6 +1162,7 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 			self.master.children [self._name].destroy ();
 		}
 		self.master.children [self._name] = self;
+		self._bindFunctions ();
 	});},
 	get __init__ () {return __get__ (this, function (self, master, widgetName, cnf, kwargs, extra) {
 		if (typeof cnf == 'undefined' || (cnf != null && cnf.hasOwnProperty ("__kwargtrans__"))) {;
@@ -673,7 +1199,15 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		}
 		self.widgetName = widgetName;
 		BaseWidget._setup (self, master, cnf);
-		self.configure (__kwargtrans__ (cnf));
+		if (!(hasattr (self.options, 'width'))) {
+			self._width = self.element.scrollWidth;
+		}
+		if (!(hasattr (self.options, 'height'))) {
+			self._height = self.element.scrollHeight;
+		}
+		var allCnf = dict ([['state', 'enabled']]);
+		allCnf.py_update (cnf);
+		self.configure (__kwargtrans__ (allCnf));
 	});},
 	get destroy () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -698,7 +1232,7 @@ export var BaseWidget =  __class__ ('BaseWidget', [Misc], {
 		Misc.destroy (self);
 	});}
 });
-export var Widget =  __class__ ('Widget', [BaseWidget, Grid, Place], {
+export var Widget =  __class__ ('Widget', [BaseWidget, Grid, Place, Pack], {
 	__module__: __name__,
 });
 export var Button =  __class__ ('Button', [Widget], {
@@ -747,22 +1281,7 @@ export var Button =  __class__ ('Button', [Widget], {
 			}
 			return null;
 		}));
-		self.element.onclick = (function __lambda__ (x) {
-			if (arguments.length) {
-				var __ilastarg0__ = arguments.length - 1;
-				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-					var __allkwargs0__ = arguments [__ilastarg0__--];
-					for (var __attrib0__ in __allkwargs0__) {
-						switch (__attrib0__) {
-							case 'x': var x = __allkwargs0__ [__attrib0__]; break;
-						}
-					}
-				}
-			}
-			else {
-			}
-			return self._callback ();
-		});
+		self.bind ('<Button1>', self._callback);
 	});},
 	get flash () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -826,9 +1345,10 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		}
 		else {
 		}
+		self.shell = document.createElement ('div');
+		self.shell.classList.add ('resizeShell');
 		self.window = document.createElement ('div');
 		self.window.classList.add ('TkWindow');
-		self.window.draggable = 'true';
 		self.menuBar = document.createElement ('div');
 		self.menuBar.classList.add ('MenuBar');
 		self.closeButton = document.createElement ('button');
@@ -863,8 +1383,8 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		Widget.__init__ (self, self, 'tk', cnf, kwargs);
 		self.window.appendChild (self.menuBar);
 		self.window.appendChild (self.mainFrame);
-		document.body.appendChild (self.window);
-		self.mainFrame.ondragstart = self._dragStart;
+		self.menuBar.draggable = true;
+		self.menuBar.ondragstart = self._dragStart;
 		self.window.onclick = (function __lambda__ () {
 			if (arguments.length) {
 				var __ilastarg0__ = arguments.length - 1;
@@ -878,43 +1398,30 @@ export var Tk =  __class__ ('Tk', [Misc], {
 			}
 			return self._bringToTop ();
 		});
-		self.window.style.position = 'absolute';
+		self._resizeHandle ('n');
+		self._resizeHandle ('ne');
+		self._resizeHandle ('e');
+		self._resizeHandle ('se');
+		self._resizeHandle ('s');
+		self._resizeHandle ('sw');
+		self._resizeHandle ('w');
+		self._resizeHandle ('nw');
+		self.shell.style.position = 'absolute';
 		self._x = 0;
 		self._y = 0;
+		self._width = 0;
+		self._height = 0;
 		var __left0__ = len (Tk.__zStack__);
 		self._z = __left0__;
-		self.window.style.zIndex = __left0__;
+		self.shell.style.zIndex = __left0__;
 		self._moveWindow (0, 0);
+		self.shell.appendChild (self.window);
+		document.body.appendChild (self.shell);
 		Tk.__zStack__.append (self);
 		self.children = dict ({});
+		self._bringToTop ();
 	});},
-	get _bringToTop () {return __get__ (this, function (self) {
-		if (arguments.length) {
-			var __ilastarg0__ = arguments.length - 1;
-			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
-				var __allkwargs0__ = arguments [__ilastarg0__--];
-				for (var __attrib0__ in __allkwargs0__) {
-					switch (__attrib0__) {
-						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
-					}
-				}
-			}
-		}
-		else {
-		}
-		print (self);
-		var i = Tk.__zStack__.index (self);
-		Tk.__zStack__.py_pop (i);
-		for (var above of Tk.__zStack__.__getslice__ (i, null, 1)) {
-			above._z--;
-			above.window.style.zIndex = above._z;
-		}
-		Tk.__zStack__.append (self);
-		var __left0__ = len (Tk.__zStack__);
-		self._z = __left0__;
-		self.window.style.zIndex = __left0__;
-	});},
-	get _dragStart () {return __get__ (this, function (self, e) {
+	get _resizeStart () {return __get__ (this, function (self, e, loc) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -923,15 +1430,56 @@ export var Tk =  __class__ ('Tk', [Misc], {
 					switch (__attrib0__) {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
 						case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						case 'loc': var loc = __allkwargs0__ [__attrib0__]; break;
 					}
 				}
 			}
 		}
 		else {
 		}
-		e.target = self.window;
-		var startX = e.clientX;
-		var startY = e.clientY;
+		self._width = (self._width ? self._width : _fromCss (self.winfo_reqwidth ()));
+		self._height = (self._height ? self._height : _fromCss (self.winfo_reqheight ()));
+		var prevX = e.clientX;
+		var prevY = e.clientY;
+		var py_update = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			e.preventDefault ();
+			var delta = null;
+			for (var d of loc) {
+				if (__in__ (d, 'ew')) {
+					var delta = (d == 'e' ? e.clientX - prevX : prevX - e.clientX);
+					self._width += delta;
+					self.mainFrame.style.width = _toCss (self._width);
+					if (d == 'w') {
+						self._x -= delta;
+						self.shell.style.left = _toCss (self._x);
+					}
+				}
+				else {
+					var delta = (d == 's' ? e.clientY - prevY : prevY - e.clientY);
+					self._height += delta;
+					self.mainFrame.style.height = _toCss (self._height);
+					if (d == 'n') {
+						self._y -= delta;
+						self.shell.style.top = _toCss (self._y);
+					}
+				}
+			}
+			prevX = e.clientX;
+			prevY = e.clientY;
+		};
 		var end = function (e) {
 			if (arguments.length) {
 				var __ilastarg0__ = arguments.length - 1;
@@ -946,7 +1494,7 @@ export var Tk =  __class__ ('Tk', [Misc], {
 			}
 			else {
 			}
-			self._moveWindow ((self._x + e.clientX) - startX, (self._y + e.clientY) - startY);
+			// pass;
 		};
 		document.body.ondrop = end;
 		document.body.ondragover = (function __lambda__ (e) {
@@ -963,10 +1511,10 @@ export var Tk =  __class__ ('Tk', [Misc], {
 			}
 			else {
 			}
-			return e.preventDefault ();
+			return e.preventDefault (py_update (e));
 		});
 	});},
-	get _moveWindow () {return __get__ (this, function (self, x, y) {
+	get _resizeHandle () {return __get__ (this, function (self, loc) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -974,18 +1522,137 @@ export var Tk =  __class__ ('Tk', [Misc], {
 				for (var __attrib0__ in __allkwargs0__) {
 					switch (__attrib0__) {
 						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
-						case 'x': var x = __allkwargs0__ [__attrib0__]; break;
-						case 'y': var y = __allkwargs0__ [__attrib0__]; break;
+						case 'loc': var loc = __allkwargs0__ [__attrib0__]; break;
 					}
 				}
 			}
 		}
 		else {
 		}
-		self._x = x;
-		self._y = y;
-		self.window.style.left = '{}px'.format (x);
-		self.window.style.top = '{}px'.format (y);
+		var handle = document.createElement ('div');
+		handle.draggable = true;
+		handle.style.width = (__in__ ('n', loc) || __in__ ('s', loc) ? '100%' : resizeArea + 'px');
+		handle.style.height = (__in__ ('e', loc) || __in__ ('w', loc) ? '100%' : resizeArea + 'px');
+		handle.style.cursor = loc + '-resize';
+		handle.style.gridArea = loc + 'Handle';
+		handle.ondragstart = (function __lambda__ (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			return self._resizeStart (e, loc);
+		});
+		self.shell.appendChild (handle);
+	});},
+	get _bringToTop () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		var i = Tk.__zStack__.index (self);
+		Tk.__zStack__.py_pop (i);
+		for (var above of Tk.__zStack__.__getslice__ (i, null, 1)) {
+			above._z -= 1;
+			above.window.style.zIndex = above._z;
+		}
+		Tk.__zStack__.append (self);
+		var __left0__ = len (Tk.__zStack__);
+		self._z = __left0__;
+		self.shell.style.zIndex = __left0__;
+	});},
+	get _dragStart () {return __get__ (this, function (self, e) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		var startX = e.clientX;
+		var startY = e.clientY;
+		var rect = self.shell.getBoundingClientRect ();
+		self._x = rect.left;
+		self._y = rect.top;
+		var drag = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			e.preventDefault ();
+		};
+		var end = function (e) {
+			if (arguments.length) {
+				var __ilastarg0__ = arguments.length - 1;
+				if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+					var __allkwargs0__ = arguments [__ilastarg0__--];
+					for (var __attrib0__ in __allkwargs0__) {
+						switch (__attrib0__) {
+							case 'e': var e = __allkwargs0__ [__attrib0__]; break;
+						}
+					}
+				}
+			}
+			else {
+			}
+			self._moveWindow (e.clientX - startX, e.clientY - startY);
+		};
+		document.body.ondrop = end;
+		document.body.ondragover = drag;
+	});},
+	get _moveWindow () {return __get__ (this, function (self, dx, dy) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'dx': var dx = __allkwargs0__ [__attrib0__]; break;
+						case 'dy': var dy = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		self._x += dx;
+		self._y += dy;
+		self.shell.style.left = _toCss (self._x);
+		self.shell.style.top = _toCss (self._y);
 	});},
 	get destroy () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -1002,7 +1669,47 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		else {
 		}
 		Misc.destroy (self);
-		self.window.remove ();
+		self.shell.remove ();
+	});},
+	get maxsize () {return __get__ (this, function (self, w, h) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'w': var w = __allkwargs0__ [__attrib0__]; break;
+						case 'h': var h = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		self.shell.style.maxWidth = '{}{}'.format (w + 2 * resizeArea);
+		self.shell.style.maxHeight = '{}{}{}'.format (h + 2 * resizeArea);
+		Misc.maxsize (self, w, h);
+	});},
+	get minsize () {return __get__ (this, function (self, w, h) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+						case 'w': var w = __allkwargs0__ [__attrib0__]; break;
+						case 'h': var h = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		self.shell.style.minWidth = '{}{}'.format (w + 2 * resizeArea);
+		self.shell.style.minHeight = '{}{}{}'.format (h + 2 * resizeArea);
+		Misc.minsize (self, w, h);
 	});},
 	get geometry () {return __get__ (this, function (self, g) {
 		if (arguments.length) {
@@ -1022,8 +1729,9 @@ export var Tk =  __class__ ('Tk', [Misc], {
 		var __left0__ = self._geometry (g);
 		var w = __left0__ [0];
 		var h = __left0__ [1];
-		self.window.style.width = '{}px'.format (w);
-		self.window.style.height = '{}px'.format (h);
+		self.shell.style.width = '{}{}'.format (w + 2 * resizeArea);
+		self.shell.styleheight = '{}{}{}'.format (h + 2 * resizeArea);
+		Misc.geometry (self, g);
 	});},
 	get title () {return __get__ (this, function (self, t) {
 		if (arguments.length) {
@@ -1094,7 +1802,7 @@ export var Wm =  __class__ ('Wm', [Misc], {
 		}
 		else {
 		}
-		return tuple ([self.element.clientWidth, self.element.clientHeight]);
+		return tuple ([self.element.scrollWidth, self.element.scrollHeight]);
 	});},
 	get wm_attriabutes () {return __get__ (this, function (self) {
 		if (arguments.length) {
@@ -1258,7 +1966,7 @@ export var Label =  __class__ ('Label', [Widget], {
 		}
 		else {
 		}
-		self.element = document.createElement ('p');
+		self.element = document.createElement ('label');
 		self.element.classList.add ('TkLabel');
 		Widget.__init__ (self, master, 'label', cnf, kwargs);
 	});}
@@ -1295,7 +2003,7 @@ export var Entry =  __class__ ('Entry', [Widget], {
 		self.element.classList.add ('TkEntry');
 		Widget.__init__ (self, master, 'input', cnf, kwargs);
 	});},
-	get getValue () {return __get__ (this, function (self) {
+	get py_get () {return __get__ (this, function (self) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -1344,7 +2052,39 @@ export var Checkbutton =  __class__ ('Checkbutton', [Widget], {
 		Widget.__init__ (self, master, 'checkbutton', cnf, kwargs);
 		self.element.type = 'checkbox';
 	});},
-	get getValue () {return __get__ (this, function (self) {
+	get select () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		self.element.checked = true;
+	});},
+	get select () {return __get__ (this, function (self) {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+					switch (__attrib0__) {
+						case 'self': var self = __allkwargs0__ [__attrib0__]; break;
+					}
+				}
+			}
+		}
+		else {
+		}
+		self.element.checked = false;
+	});},
+	get py_get () {return __get__ (this, function (self) {
 		if (arguments.length) {
 			var __ilastarg0__ = arguments.length - 1;
 			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -1440,5 +2180,6 @@ export var BooleanVar =  __class__ ('BooleanVar', [Variable], {
 });
 export var _dynamic_styles = document.createElement ('style');
 document.head.appendChild (_dynamic_styles);
+export var _dynamic_style_manager = StyleManager (_dynamic_styles);
 
 //# sourceMappingURL=tkinter.map

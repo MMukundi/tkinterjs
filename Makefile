@@ -1,2 +1,2 @@
-tkinterjs: tictac.py tkinter.py helperFunc.py index.html 
-	transcrypt -n -b -m tictac.py
+main: tictac.py tkinter.py helperFunc.py
+	python3 -m transcrypt -n -b -m mOSFull.py

@@ -1,4 +1,4 @@
-// Transcrypt'ed from Python, 2020-08-20 03:03:19
+// Transcrypt'ed from Python, 2020-09-14 22:32:39
 var re = {};
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, abs, all, any, assert, bool, bytearray, bytes, callable, chr, copy, deepcopy, delattr, dict, dir, divmod, enumerate, filter, float, getattr, hasattr, input, int, isinstance, issubclass, len, list, map, max, min, object, ord, pow, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, round, set, setattr, sorted, str, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
 import * as __module_re__ from './re.js';
@@ -32,7 +32,7 @@ export var generateGroupSpans = function (tokens) {
 				}
 			}
 		}
-		idx++;
+		idx += 1;
 	}
 	return groupInfo;
 };
@@ -41,7 +41,7 @@ export var countCaptureGroups = function (tokens) {
 	var count = 0;
 	for (var token of tokens) {
 		if (__t__ (token.py_name == '(')) {
-			count++;
+			count += 1;
 		}
 	}
 	return count;
@@ -56,7 +56,7 @@ export var getCaptureGroup = function (groupInfo, namedGroups, groupRef) {
 	var search = 0;
 	for (var group of groupInfo) {
 		if (__t__ (group.klass == '(')) {
-			search++;
+			search += 1;
 			if (__t__ (search == id)) {
 				return group;
 			}
@@ -323,7 +323,7 @@ export var translate = function (rgx) {
 	var namedGroups = dict ();
 	var nloop = 0;
 	while (__t__ (true)) {
-		nloop++;
+		nloop += 1;
 		if (__t__ (nloop > MAX_SHIFTREDUCE_LOOPS)) {
 			var __except0__ = Exception ();
 			__except0__.__cause__ = null;
