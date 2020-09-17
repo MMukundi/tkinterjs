@@ -111,7 +111,7 @@ class Grid(LayoutManager):
 			elif('s' in sticky):
 				self.element.style.alignSelf = "end"
 			else:
-				self.element.style.height = ""
+				# self.element.style.height = "initial"
 				self.element.style.alignSelf = "center"
 
 			if('e' in sticky and 'w' in sticky):
@@ -122,7 +122,7 @@ class Grid(LayoutManager):
 			elif('w' in sticky):
 				self.element.style.justifySelf = "start"
 			else:
-				self.element.style.width = ""
+				# self.element.style.width = "initial"
 				self.element.style.justifySelf = "center"
 
 		self.element.style.gridColumnStart = f'{column+1}'
@@ -315,7 +315,7 @@ class Misc:
 				inds.append(4)
 			return inds if len(inds)>0 else [0]
 		def _buttonHandler(e):
-			e.preventDefault()
+			# e.preventDefault()
 			# console.log(self)
 			allHandlers = self._function_bindings_["Button"]
 			if(not allHandlers):
@@ -326,7 +326,7 @@ class Misc:
 				if(allHandlers[i] and allHandlers[i][button]):
 					allHandlers[i][button]({"widget":self,"x":e.clientX-rect.left,"y":e.clientY-rect.top})
 		def _wheelHandler(e):
-			e.preventDefault()
+			# e.preventDefault()
 			allHandlers = self._function_bindings_["MouseWheel"]
 			if(not allHandlers):
 				return
@@ -449,13 +449,16 @@ class Misc:
 				else:
 					self.element.style.paddingTop = self.element.style.paddingBottom = v
 			elif(k == "relief"):
+				if(v=="flat"):
+					self.element.classList.add("__flat_button__")
+				else:
+					self.element.classList.remove("__flat_button__")
 				pass
 			elif(k == "selectbackground"):
 				pass
 			elif(k == "setgrid"):
 				pass
 			elif(k == "state"):
-				console.log(v)
 				self.element.disabled = v=="disabled"
 				# self.element.disabled=self.element.disabled.lower()
 			elif(k == "takefocus"):
@@ -683,7 +686,7 @@ class Tk(Misc):
 
 		self.closeButton = document.createElement("button")
 
-		self.closeButton.classList.add("CloseButton")
+		self.closeButton.classList.add("CloseButton","__flat_button__")
 		self.closeButton.classList.add("TkButton")
 		self.closeButton.innerText = "X"
 		self.closeButton.onclick = lambda e: self.destroy()
@@ -744,6 +747,7 @@ class Tk(Misc):
 			e.preventDefault()
 			nonlocal prevX,prevY
 			delta = None
+			# debugger
 			for d in loc:
 				if(d in "ew"):
 					delta = (e.clientX-prevX)if (d=="e")else (prevX-e.clientX)

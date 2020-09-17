@@ -2,6 +2,7 @@
     --main-color: black;
     --transition-time: 150ms;
     --header-height: 20px;
+    --button-height: 2px;
 }
 
 html,
@@ -40,7 +41,16 @@ body {
     height: initial;
     border: 1px solid darkgray;
     overflow: hidden;
-    box-shadow: #00133a 1px 1px 0.1px;
+    box-shadow: black var(--button-height) var(--button-height);
+    translate: calc(-1* var(--button-height)) calc(-1* var(--button-height));
+}
+
+.TkButton:enabled:hover {
+    background: darkgray;
+}
+
+.TkButton:disabled {
+    color: darkgray;
 }
 
 
@@ -130,4 +140,12 @@ body {
 .resizeShell {
     display: grid;
     grid-template-areas: "nwHandle nHandle neHandle" "wHandle  window  eHandle" "swHandle sHandle seHandle";
+    min-height: var(--header-height);
+    /* height: 300px;
+    width: 100px; */
+}
+
+.__flat_button__ {
+    translate: none;
+    box-shadow: none;
 }

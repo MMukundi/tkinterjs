@@ -13,7 +13,7 @@ colors = {1:"blue" , 2: "green" , 3: "red", 4:"dark blue", 5:"maroon", 6:"teal",
 classicColor = None
 class gameButton(tkinter.Button):
 	def __init__(self, board, window = None, length = 10, wid = 10, coord = None,**kw):
-		tkinter.Button.__init__(self,board , height = 100/length, width = 100/wid+"%", activebackground = 'grey', command = lambda: self.ifFlagged(window))
+		tkinter.Button.__init__(self,board , disabledbackground="white",height = "100%", width ="100%", activebackground = 'grey', command = lambda: self.ifFlagged(window))
 		self.isExp = False
 		self.flagged = False
 		self.len = length
@@ -29,7 +29,11 @@ class gameButton(tkinter.Button):
 	def ifFlagged(self, window, doNotAdd = []):
 		if not self.flagged:
 			self.reveal(window, doNotAdd)
-
+	def disable(self):
+		if(self.nearExp>0):
+			self.config(font = ("sans 9 bold"), text = self.nearExp, relief = 'flat', state = 'disabled', disabledforeground = colors[self.nearExp])
+		else:
+			self.config(font = ("sans 9 bold"), relief = 'flat', state = 'disabled')
 	def flag(self,event):
 		self.flagNum += 1
 		self.flagNum %= 3
@@ -50,8 +54,8 @@ class gameButton(tkinter.Button):
 		self.uncover = []
 		# console.log(self.isExp,doNotAdd)
 		if self.isExp:
-			console.log("AHHHH")
 			if window.firstMove:
+				console.log("AHHHH")
 				window.firstMove = False
 				window.genExplos(toReplace = self)
 				self.config(bg = 'grey')
@@ -71,13 +75,12 @@ class gameButton(tkinter.Button):
 					# window.messageLabel.place(relx = .5, rely = 1, anchor = 's')									
 				for row in window.buttons:
 					for button in row:
+
 						if button.isExp:
-							button.config(bg = 'red4', disabledforeground = 'yellow')
-						if button.cget("state") != "disabled":
-							if button.flagged and not button.isExp:
-								button.config(disabledforeground = 'red4')
+							button.config(state="disabled", bg = 'red',fg = 'yellow')
+						elif button.cget("state") != "disabled":
 							button.config(state = "disabled", relief = "raised")
-						button.flagged = True
+
 				window.gameOver = True
 
 				self.config(bg='red')
@@ -104,7 +107,7 @@ class gameButton(tkinter.Button):
 						self.uncover.extend(b.reveal(window, doNotAdd+self.uncover + [self.coord]))
 
 			# console.log(self.uncover,self.coord)
-			if doNotAdd == []:
+			if len(doNotAdd) == 0:
 				self.uncover.append(self.coord)
 			self.uncover.sort()
 			
@@ -112,16 +115,16 @@ class gameButton(tkinter.Button):
 				for pair in positions:
 					if not (butt[1]+pair[1] < 0 or butt[1]+pair[1]+1 > self.len or butt[0]+pair[0] < 0 or butt[0]+pair[0]+1 > self.wid):
 						if (not window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].coord in self.uncover) and (window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].nearExp > 0) and (not window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].isExp):
-							window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].config(font = ("sans 9 bold"), relief = "flat", state = 'disabled', disabledforeground = colors[window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].nearExp], text = window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].nearExp)
+							window.buttons[butt[1]+pair[1]][butt[0]+pair[0]].disable()
 				
 			for coord in self.uncover:
-				window.buttons[coord[1]][coord[0]].config(relief = "flat", state = 'disabled', text = "")
+				window.buttons[coord[1]][coord[0]].disable()
 			window.checkWin()	
 			return self.uncover
 		
 		elif not self.isExp:	
 			window.firstMove = False
-			self.config(font = ("sans 9 bold"), text = self.nearExp, relief = 'flat', state = 'disabled', disabledforeground = colors[self.nearExp])
+			self.disable()
 			window.checkWin()	
 			return self.coord
 class settingsWin:
@@ -167,16 +170,18 @@ class settingsWin:
 		
 	def start(self):
 		if not self.random.get():
-			# self.seed = func.retrieveVar('seed', 'saveData.dat')
-			random.seed(self.seed)
-	
-		if self.enter.get() != '':
-			self.seed = self.enter.get()
-
-		else:
-			pass
+			console.log("r1")
 			# self.seed = func.retrieveVar('seed', "saveData.dat")
-		
+			self.seed = random.randint(0,999)
+		elif self.enter.get() != '':
+			console.log("enter")
+			self.seed = self.enter.get()
+		else:
+			console.log("r2")
+			self.seed = random.randint(0,999)
+
+		console.log(self.seed,random)
+		random.seed(int(self.seed))	
 		# func.redefineVar('seed', self.seed, 'saveData.dat')
 		if self.lenEntry.get() != '':
 			self.newLen = self.lenEntry.get()
@@ -199,6 +204,7 @@ class gameWin(tkinter.Tk):
 		self.oldWin = oldWin
 		self.len = int(size[0])
 		self.wid = int(size[1])
+		# self.oldWin.seed=int(oldWin)
 		if num == None:
 			self.num = math.floor(self.len * self.wid / 7.3)
 		else:
@@ -211,7 +217,7 @@ class gameWin(tkinter.Tk):
 		self.buttons = [[gameButton(board = self.board, length = self.len, wid = self.wid, window = self, coord = (x,y)) for x in range(self.wid)] for y in range(self.len)]
 		for row in enumerate(self.buttons):
 			for col in enumerate(row[1]):
-				col[1].grid(row = row[0], column = col[0])
+				col[1].grid(row = row[0], column = col[0],sticky="news")
 		self.board.place(relx = .5, rely = .5, relwidth=.5,relheight=0.5, anchor = 'center')
 
 		# self.update()
@@ -219,7 +225,7 @@ class gameWin(tkinter.Tk):
 		self.frameW = self.board.winfo_width()
 		# winFunc.centerWindow(master, width = self.frameW + 400, height = self.frameH + 100)
 		self.genExplos()
-		self.currSeed.config(text = "You\'re playing seed "+self.seed)
+		self.currSeed.config(text = "You\'re playing seed "+self.oldWin.seed)
 		self.currSeed.place(relx = .5, rely = 0, anchor = 'n')
 		self.messageLabel = tkinter.Label(self)
 		self.checkWin()
@@ -267,13 +273,17 @@ class gameWin(tkinter.Tk):
 				self.messageLabel.place(relx = .5, rely = 1,relwidth=1, anchor = 's')
 
 	def genExplos(self, toReplace = None):
-		if not self.oldWin.random.get():
-			self.seed = 7
-			pass
-			# self.seed = func.retrieveVar('seed', 'saveData.dat')
-		else:
-			self.seed = random.randint(999)
-		random.seed(self.seed)		
+		# if self.oldWin.random.get():
+		# 	self.seed = random.randint(999)
+		# 	# console.log(self.oldWin.random.get())
+		# 	# self.seed = int(self.oldWin.random.get())
+		# 	# pass
+		# else:
+		# 	self.seed = int(self.oldWin.random.get())
+		# 	# self.seed = func.retrieveVar('seed', 'saveData.dat')
+
+		# console.log(self.seed,self.oldWin.random.get())
+		# random.seed(self.seed)		
 			
 		if toReplace == None:
 			console.log(self.buttons)
@@ -287,7 +297,6 @@ class gameWin(tkinter.Tk):
 				if (expCol,expRow) not in self.placed:	
 					#
 					self.buttons[expRow][expCol].isExp = True
-					self.buttons[expRow][expCol].config(bg="yellow")
 					self.placed.append((expCol,expRow))
 					self.expCount += 1
 
